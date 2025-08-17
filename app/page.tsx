@@ -1,12 +1,13 @@
 import Navbar from "@/components/ui/layout/Navbar";
-import styles from "./page.module.css";
-import { Text_Me_One } from "next/font/google";
-
+import Hero from "@/components/ui/layout/Hero";
 
 export default function Home() {
   return (
-    <>
-      <Navbar />
-    </>
+    <main>
+      <>
+        <Navbar />
+      </>
+      <Hero />
+    </main>
   );
 }

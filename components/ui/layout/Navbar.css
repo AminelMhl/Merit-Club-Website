@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 2rem;
-  height: 64px;
+  height: 70px;
   background: 000;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
 }
@@ -22,7 +22,7 @@
   margin: 0;
   padding: 0;
   align-items: center;
-  gap: 80px;
+  gap: 65px;
 }
 
 .links li a {
@@ -45,8 +45,8 @@ height: 30px;
 display: flex;
 align-items: center;
 justify-content: center;
-padding-left: 19px;
-padding-right: 19px;
+padding-left: 22px;
+padding-right: 22px;
 box-sizing: border-box;
 text-align: left;
 font-size: 20px;

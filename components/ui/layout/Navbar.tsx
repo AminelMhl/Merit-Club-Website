@@ -1,10 +1,13 @@
 import React from "react";
 import Link from "next/link";
+import Image from "next/image";
 import "./Navbar.css"; 
 const Navbar = () => {
   return (
     <div className="navbar">
-      <div className="logo"></div>
+      <div className="logo">
+        <Image src="/Merit Logo.png" alt="Merit Logo" width={80} height={65} />
+      </div>
       <div className="links">
         <li>
           <Link href="/">Home</Link>
