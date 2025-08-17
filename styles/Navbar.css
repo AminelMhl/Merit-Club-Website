@@ -1,0 +1,57 @@
+
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  height: 64px;
+  background: #fff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  flex: 0 0 auto;
+  font-size: 1.5rem;
+  font-weight: bold;
+}
+
+.links {
+  display: flex;
+  gap: 2rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.links li a {
+  text-decoration: none;
+  color: #333;
+  font-size: 1rem;
+  transition: color 0.2s;
+}
+
+.links li a:hover {
+  color: #0070f3;
+}
+
+.login-btn {
+  margin-left: 2rem;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+  }
+  .links {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-end;
+  }
+  .login-btn {
+    margin-left: 0;
+    margin-top: 1rem;
+    align-self: flex-end;
+  }
+}
