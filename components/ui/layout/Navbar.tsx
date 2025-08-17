@@ -1,25 +1,26 @@
 import React from "react";
-import Button from "../Button";
+import Link from "next/link";
+import "./Navbar.css"; 
 const Navbar = () => {
   return (
     <div className="navbar">
       <div className="logo"></div>
       <div className="links">
         <li>
-          <a href="/">Home</a>
+          <Link href="/">Home</Link>
         </li>
         <li>
-          <a href="/about">About</a>
+          <Link href="/About">About</Link>
         </li>
         <li>
-          <a href="/events">Events</a>
+          <Link href="/Events">Events</Link>
         </li>
         <li>
-          <a href="/contact">Contact</a>
+          <Link href="/Contact">Contact</Link>
         </li>
-      </div>
-      <div className="login-btn">
-        <Button text="Login" />
+        <li className="login-btn">
+          <Link href="/Login">Login</Link>
+        </li>
       </div>
     </div>
   );
