@@ -1,0 +1,124 @@
+.heroSection {
+  position: relative;
+  height: calc(100vh - 50px); /* Subtract navbar height to prevent scrollbar */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("/bck.png");
+  background-size: cover;
+  background-position: center;
+  padding: 0 20px;
+  overflow: hidden;
+  margin-top: 0;
+}
+
+.text {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  line-height: 1.2;
+  max-width: 900px;
+}
+
+.related {
+  color: #fccc06; /* Merit yellow color - matching the color used in navbar */
+}
+
+.subText {
+  font-size: 1.2rem;
+  max-width: 600px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.6;
+  font-family: var(--font-primary);
+  font-weight: 300;
+  letter-spacing: 0.5px;
+}
+
+.buttonContainer {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+
+.exploreBtn,
+.loginHeroBtn {
+  padding: 0.8rem 2rem;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: inline-block;
+  min-width: 160px; /* Equal width for both buttons */
+  text-align: center;
+}
+
+.exploreBtn {
+  background-color: #fccc06;
+  color: #000;
+  border: none;
+}
+
+.exploreBtn:hover {
+  background-color: #ffdc4e;
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(252, 204, 6, 0.4);
+}
+
+.loginHeroBtn {
+  background-color: transparent;
+  color: white;
+  border: 2px solid white;
+}
+
+.loginHeroBtn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  transform: translateY(-3px);
+  box-shadow: 0 4px 15px rgba(255, 255, 255, 0.2);
+}
+
+@media (max-width: 768px) {
+  .text {
+    font-size: 2.2rem;
+    padding: 0 15px;
+  }
+
+  .subText {
+    font-size: 1rem;
+    padding: 0 15px;
+  }
+
+  .buttonContainer {
+    flex-direction: column;
+    width: 100%;
+    max-width: 250px;
+    margin: 0 auto;
+  }
+
+  .exploreBtn,
+  .loginHeroBtn {
+    width: 100%;
+    min-width: unset;
+  }
+}
+
+/* For smaller height screens to prevent scrollbar */
+@media (max-height: 700px) {
+  .heroSection {
+    height: calc(100vh - 30px);
+  }
+
+  .text {
+    font-size: 2.8rem;
+    margin-bottom: 1rem;
+  }
+
+  .subText {
+    margin-bottom: 1.8rem;
+  }
+}

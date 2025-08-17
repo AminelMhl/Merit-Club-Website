@@ -1,14 +1,39 @@
-import React from "react";
+
+"use client";
+
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
-import "./Navbar.css"; 
+import styles from "./Navbar.module.css";
+
 const Navbar = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (window.scrollY > 20) {
+        setScrolled(true);
+      } else {
+        setScrolled(false);
+      }
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <div className="navbar">
-      <div className="logo">
-        <Image src="/Merit Logo.png" alt="Merit Logo" width={80} height={65} />
+    <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>
+      <div className={styles.logo}>
+        <Image
+          src="/Merit Logo.png"
+          alt="Merit Logo"
+          width={100}
+          height={75}
+          priority
+        />
       </div>
-      <div className="links">
+      <ul className={styles.links}>
         <li>
           <Link href="/">Home</Link>
         </li>
@@ -21,11 +46,12 @@ const Navbar = () => {
         <li>
           <Link href="/Contact">Contact</Link>
         </li>
-        <li className="login-btn">
+        <li className={styles.loginBtn}>
           <Link href="/Login">Login</Link>
         </li>
-      </div>
-    </div>
+      </ul>
+    </nav>
   );
 };
+
 export default Navbar;
