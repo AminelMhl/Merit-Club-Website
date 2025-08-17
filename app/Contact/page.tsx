@@ -3,6 +3,10 @@ import { Text_Me_One } from "next/font/google";
 
 export default function Home() {
   return (
-    <h1>Merit TBS is the best club ever</h1>
+    <main>
+      <h1>Contact Us!</h1>
+      <p>+216 96 517 222</p>
+      <p>MeritTBS@Fate.com</p>
+    </main>
   );
 }
