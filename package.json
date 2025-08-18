@@ -11,7 +11,10 @@
   "dependencies": {
     "next": "^15.4.6",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "resize-observer-polyfill": "^1.5.1",
+    "simplebar": "^6.3.2",
+    "simplebar-react": "^3.3.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
