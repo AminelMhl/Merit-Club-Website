@@ -1,6 +1,5 @@
 "use client";
 
-/* eslint-disable @next/next/no-img-element */
 import Hero from "@/components/ui/layout/Hero";
 import About from "./About";
 import SimpleBar from "simplebar-react";
