@@ -221,12 +221,19 @@ a.secondary {
 .explorebtn {
   padding-left: 4%;
   padding-top: 1.5%;
-  transition: transform 0.3s ease;
+}
+
+.explorebtn img {
+  transition: box-shadow 0.3s, 
+  filter 0.3s, 
+  transform 0.3s;
   transform-origin: left;
 }
 
-.explorebtn:hover {
-  transform:scale(1.05);
+.explorebtn img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 0;
+  filter: brightness(1.2);
 }
 
 @media (prefers-color-scheme: dark) {

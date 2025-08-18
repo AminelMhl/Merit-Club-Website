@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import Navbar from "@/components/ui/layout/Navbar";
 import Hero from "@/components/ui/layout/Hero";
 import styles from "./page.module.css";
 import Link from "next/link";
@@ -7,9 +6,6 @@ import Link from "next/link";
 export default function Home() {
   return (
     <main>
-      <>
-        <Navbar />
-      </>
       <Hero />
       <div id="about">
         <div className={styles["about-container"]}>
