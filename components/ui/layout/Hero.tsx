@@ -1,16 +1,40 @@
 import Link from "next/link";
 import styles from "./Hero.module.css";
+import Scrollindicator from "../Scrollindicator";
 
 const Hero = () => {
   return (
     <div className={styles.heroSection}>
       <h1 className={styles.text}>
-        &quot;Make Everything <span className={styles.related}>Related</span> to
-        IT&quot;
+        &quot;Make Everything{" "}
+        <span style={{ position: "relative", display: "inline-block" }}>
+          <span
+            className={styles.related}
+            style={{ position: "relative", zIndex: 1 }}
+          >
+            Related
+          </span>
+          <img
+            src="/circle.svg"
+            alt="Emphasis Circle"
+            style={{
+              position: "absolute",
+              left: "10px",
+              top: "-15px",
+              width: "180px",
+              transform: "scale(1.2)",
+              height: "100px",
+              pointerEvents: "none",
+              zIndex: 0,
+            }}
+          />
+        </span>{" "}
+        to IT&quot;
       </h1>
       <p className={styles.subText}>
-        Dive into coding, design, and emerging tech trends in a practical, fun
-        way
+        Dive into coding, design, and emerging tech trends
+        <br />
+        in a practical, fun way.
       </p>
       <div className={styles.buttonContainer}>
         <Link href="#about" className={styles.exploreBtn}>
@@ -20,6 +44,7 @@ const Hero = () => {
           Login
         </Link>
       </div>
+      <Scrollindicator />
     </div>
   );
 };
