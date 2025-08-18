@@ -13,7 +13,7 @@ const Hero = () => {
         way
       </p>
       <div className={styles.buttonContainer}>
-        <Link href="/explore-more" className={styles.exploreBtn}>
+        <Link href="#about" className={styles.exploreBtn}>
           Explore more
         </Link>
         <Link href="/login" className={styles.loginHeroBtn}>
