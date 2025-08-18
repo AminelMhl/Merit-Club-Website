@@ -5,22 +5,10 @@ import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styles from "./Navbar.module.css";
+import { useScroll } from "./ScrollContext";
 
 const Navbar = () => {
-  const [scrolled, setScrolled] = useState(false);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  const { scrolled } = useScroll();
 
   return (
     <nav className={`${styles.navbar} ${scrolled ? styles.scrolled : ""}`}>

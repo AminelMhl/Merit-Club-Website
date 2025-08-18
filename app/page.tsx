@@ -4,27 +4,35 @@ import Hero from "@/components/ui/layout/Hero";
 import About from "./About";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
+import { useScroll } from "@/components/ui/layout/ScrollContext";
 
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const simpleBarRef = useRef<any>(null);
+  const { setScrolled } = useScroll();
+
+  useEffect(() => {
+    const scrollElement = simpleBarRef.current?.getScrollElement?.();
+    if (!scrollElement) return;
+    const handleScroll = () => {
+      setScrolled(scrollElement.scrollTop > 20);
+    };
+    scrollElement.addEventListener("scroll", handleScroll);
+    return () => scrollElement.removeEventListener("scroll", handleScroll);
+  }, [setScrolled]);
 
   const handleExploreClick = () => {
-  const aboutSection = document.getElementById("about");
-  const simpleBarContent = simpleBarRef.current?.getScrollElement?.();
-  if (aboutSection && simpleBarContent) {
-    // Calculate offset relative to the scroll container
-    const containerRect = simpleBarContent.getBoundingClientRect();
-    const aboutRect = aboutSection.getBoundingClientRect();
-    const offset = aboutRect.top - containerRect.top + simpleBarContent.scrollTop;
-
-    simpleBarContent.scrollTo({
-      top: offset,
-      behavior: "smooth",
-    });
-  }
-};
+    const aboutSection = document.getElementById("about");
+    const simpleBarContent = simpleBarRef.current?.getScrollElement?.();
+    if (aboutSection && simpleBarContent) {
+      const aboutTop = aboutSection.offsetTop;
+      simpleBarContent.scrollTo({
+        top: aboutTop,
+        behavior: "smooth",
+      });
+    }
+  };
   return (
     <main>
       <style jsx global>{`
