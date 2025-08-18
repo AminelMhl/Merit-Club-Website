@@ -168,7 +168,7 @@ a.secondary {
   height: 100vh;  
   grid-template-areas: "images about-text";
   padding: 2%;
-  background: rgba(0, 0, 0, 0.9);
+  background: #000;
 
 }
 
