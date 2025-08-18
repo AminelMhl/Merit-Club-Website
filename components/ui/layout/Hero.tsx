@@ -1,8 +1,9 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import styles from "./Hero.module.css";
 import Scrollindicator from "../Scrollindicator";
 
-const Hero = () => {
+const Hero = ({ onExploreClick }: { onExploreClick: () => void }) => {
   return (
     <div className={styles.heroSection}>
       <h1 className={styles.text}>
@@ -37,9 +38,9 @@ const Hero = () => {
         in a practical, fun way.
       </p>
       <div className={styles.buttonContainer}>
-        <Link href="#about" className={styles.exploreBtn}>
+        <button className={styles.exploreBtn} onClick={onExploreClick}>
           Explore more
-        </Link>
+        </button>
         <Link href="/login" className={styles.loginHeroBtn}>
           Login
         </Link>
