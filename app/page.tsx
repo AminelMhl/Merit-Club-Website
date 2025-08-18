@@ -34,7 +34,6 @@ export default function Home() {
           width: "100%",
         }}
         autoHide={true}
-        timeout={1000}
       >
         <Hero />
         <About />
