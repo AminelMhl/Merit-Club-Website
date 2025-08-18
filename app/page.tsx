@@ -12,11 +12,18 @@ export default function Home() {
       <style jsx global>{`
         .custom-scrollbar .simplebar-scrollbar::before {
           background-color: #fdc703 !important;
-          opacity: 0.8;
+          opacity: 0;
+          transition: opacity 0.3s ease;
         }
         .custom-scrollbar .simplebar-scrollbar:hover::before {
           background-color: #fcaa00 !important;
           opacity: 1;
+        }
+        .custom-scrollbar.simplebar-scrolling .simplebar-scrollbar::before {
+          opacity: 0.8;
+        }
+        .custom-scrollbar .simplebar-track {
+          background-color: transparent !important;
         }
       `}</style>
       <SimpleBar
@@ -27,6 +34,7 @@ export default function Home() {
           width: "100%",
         }}
         autoHide={true}
+        timeout={1000}
       >
         <Hero />
         <About />
@@ -34,4 +42,3 @@ export default function Home() {
     </main>
   );
 }
-
