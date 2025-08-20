@@ -2,6 +2,7 @@
 
 import Hero from "@/components/ui/layout/Hero";
 import About from "./About";
+import Team from "./Team";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { useEffect, useRef } from "react";
@@ -33,6 +34,22 @@ export default function Home() {
       });
     }
   };
+
+  const handleTeamClick = () => {
+    const teamSection = document.getElementById("team");
+    const simpleBarContent = simpleBarRef.current?.getScrollElement?.();
+    if (teamSection && simpleBarContent) {
+      const containerRect = simpleBarContent.getBoundingClientRect();
+      const teamRect = teamSection.getBoundingClientRect();
+      const offset =
+        teamRect.top - containerRect.top + simpleBarContent.scrollTop;
+      simpleBarContent.scrollTo({
+        top: offset,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <main>
       <style jsx global>{`
@@ -63,7 +80,8 @@ export default function Home() {
         ref={simpleBarRef}
       >
         <Hero onExploreClick={handleExploreClick} />
-        <About />
+        <About onTeamClick={handleTeamClick} />
+        <Team />
       </SimpleBar>
     </main>
   );

@@ -3,7 +3,7 @@ import React from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
 
-const About = () => {
+const About = ({ onTeamClick }: { onTeamClick: () => void }) => {
   return (
     <div id="about">
       <div className={styles["about-container"]}>
@@ -24,9 +24,18 @@ const About = () => {
             space where everyone can grow and thrive in today’s digital age.
           </p>
           <div className={styles.explorebtn}>
-            <Link href="/your-target-page">
-              <img src="/expbtn.png" alt="" />
-            </Link>
+            <button
+              style={{
+                background: "none",
+                border: "none",
+                padding: 0,
+                cursor: "pointer",
+              }}
+              onClick={onTeamClick}
+              aria-label="Go to team section"
+            >
+              <img src="/expbtn.png" alt="#team" />
+            </button>
           </div>
         </div>
       </div>
