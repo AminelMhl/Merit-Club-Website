@@ -1,8 +1,8 @@
 "use client";
 
 import Hero from "@/components/ui/layout/Hero";
-import About from "./About";
-import Team from "./Team";
+import About from "@/components/sections/About";
+import Team from "@/components/sections/Team";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { useEffect, useRef } from "react";

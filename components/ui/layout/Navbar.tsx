@@ -5,7 +5,7 @@ import Image from "next/image";
 import { useState } from "react";
 import styles from "./Navbar.module.css";
 import { useScroll } from "./ScrollContext";
-import LoginModal from "../../../app/Login/LoginModal";
+import LoginModal from "../LoginModal";
 import { scrollToSection } from "../../../utils/scrollUtils";
 
 const Navbar = () => {

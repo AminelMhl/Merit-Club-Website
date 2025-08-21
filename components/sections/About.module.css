@@ -1,0 +1,75 @@
+@import url(https://fonts.googleapis.com/css2?family=Gilroy-Bold:wght@400&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap);
+@import url(https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap);
+
+.about-container {
+  display: grid;
+  height: 100vh;
+  grid-template-areas: "images about-text";
+  padding-left: 2%;
+  padding-right: 2%;
+  padding-top: 2%;
+  background: #000;
+}
+
+.images {
+  grid-area: images;
+  margin-top: 50px;
+  margin-bottom: 10px;
+}
+
+.about-text {
+  grid-area: about-text;
+  padding: 7%;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.aboutText {
+  font-size: 20px;
+  font-weight: 200;
+  line-height: 1.4;
+  padding-left: 4.5%;
+  padding-top: 2%;
+  color: #fff;
+  font-family: Roboto;
+}
+
+.bit {
+  position: relative;
+  font-size: 18px;
+  letter-spacing: 6px;
+  line-height: 22px;
+  font-family: Gilroy-Bold;
+  color: #d9d9d9;
+  text-align: left;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.aboutH1 {
+  position: relative;
+  font-size: 52px;
+  letter-spacing: 5px;
+  line-height: 65px;
+  font-family: Montserrat - Bold;
+  color: #fcaa00;
+  text-align: left;
+  display: inline-block;
+}
+
+.explorebtn {
+  padding-left: 4%;
+  padding-top: 1.5%;
+}
+
+.explorebtn img {
+  transition: box-shadow 0.3s, filter 0.3s, transform 0.3s;
+  transform-origin: left;
+}
+
+.explorebtn img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 0 0;
+  filter: brightness(1.2);
+}

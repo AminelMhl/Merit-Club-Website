@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import styles from "./page.module.css";
+import styles from "./About.module.css";
 import Link from "next/link";
 
 const About = ({ onTeamClick }: { onTeamClick: () => void }) => {
