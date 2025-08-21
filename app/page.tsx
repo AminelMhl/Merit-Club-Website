@@ -1,12 +1,13 @@
 "use client";
 
-import Hero from "@/components/ui/layout/Hero";
+import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Team from "@/components/sections/Team";
+import Events from "@/components/sections/Events";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { useEffect, useRef } from "react";
-import { useScroll } from "@/components/ui/layout/ScrollContext";
+import { useScroll } from "@/components/ui/ScrollContext";
 
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -82,36 +83,8 @@ export default function Home() {
         <Hero onExploreClick={handleExploreClick} />
         <About onTeamClick={handleTeamClick} />
         <Team />
-        <div
-          id="events"
-          style={{
-            height: "100vh",
-            padding: "100px 20px",
-            textAlign: "center",
-            background: "#000000",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <h2
-            style={{ fontSize: "3rem", marginBottom: "2rem", color: "#fccc06" }}
-          >
-            Events
-          </h2>
-          <p
-            style={{
-              fontSize: "1.2rem",
-              color: "rgba(255, 255, 255, 0.8)",
-              maxWidth: "600px",
-              margin: "0 auto",
-            }}
-          >
-            Stay tuned for exciting upcoming events, workshops, and bootcamps
-            organized by Merit Club TBS.
-          </p>
-        </div>
+        <Events />
+
         <div
           id="contact"
           style={{

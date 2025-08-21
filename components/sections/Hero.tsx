@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import styles from "./Hero.module.css";
-import Scrollindicator from "../Scrollindicator";
+import Scrollindicator from "../ui/Scrollindicator";
 
 const Hero = ({ onExploreClick }: { onExploreClick: () => void }) => {
   return (

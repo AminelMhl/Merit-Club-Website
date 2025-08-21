@@ -24,7 +24,7 @@ const Team = () => {
     },
     {
       name: "Ameni Tiba",
-      role: "Project Management Department",
+      role: "Project Management",
       image: "/amn.png",
       id: "pm",
     },
@@ -48,7 +48,7 @@ const Team = () => {
     },
     {
       name: "Mohamed Belgacem",
-      role: "Marketing Department",
+      role: "Marketing",
       image: "/amn.png",
       id: "marketing",
     },
