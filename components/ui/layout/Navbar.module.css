@@ -42,7 +42,8 @@
   position: relative;
 }
 
-.links li a {
+.links li a,
+.navButton {
   text-decoration: none;
   color: #ffffff;
   font-size: 0.95rem;
@@ -52,9 +53,13 @@
   padding: 8px 0;
   position: relative;
   font-family: var(--font-primary);
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
-.links li a::after {
+.links li a::after,
+.navButton::after {
   content: "";
   position: absolute;
   width: 0;
@@ -65,11 +70,13 @@
   transition: width 0.3s ease;
 }
 
-.links li a:hover {
+.links li a:hover,
+.navButton:hover {
   color: #fccc06;
 }
 
-.links li a:hover::after {
+.links li a:hover::after,
+.navButton:hover::after {
   width: 100%;
 }
 
@@ -89,7 +96,7 @@
   transition: all 0.3s ease;
 }
 
-.loginBtn a {
+.loginButton {
   color: #fff !important;
   text-decoration: none;
   width: 100%;
@@ -97,11 +104,19 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  font-family: var(--font-primary);
 }
 
 .loginBtn:hover {
   box-shadow: 0 6px 12px rgba(252, 170, 0, 0.4);
   background: linear-gradient(135deg, #ffb700, #ffd54f);
+  transform: translateY(-1px);
 }
 
 .loginBtn:active {

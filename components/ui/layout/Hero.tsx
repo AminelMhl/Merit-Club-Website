@@ -5,7 +5,7 @@ import Scrollindicator from "../Scrollindicator";
 
 const Hero = ({ onExploreClick }: { onExploreClick: () => void }) => {
   return (
-    <div className={styles.heroSection}>
+    <div id="home" className={styles.heroSection}>
       <h1 className={styles.text}>
         &quot;Make Everything{" "}
         <span style={{ position: "relative", display: "inline-block" }}>

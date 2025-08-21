@@ -1,55 +1,84 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
-import styles from "./page.module.css";
+import styles from "./Team.module.css";
 
 const Team = () => {
-    return (
-        <main id="team" className={styles.team}>
-           <h1 className={styles.meet}>Meet the team</h1>
-           <div className={styles.teamContainer}>
-            <div className={`${styles.lead} ${styles.president}`}>
-                <img src="/amn.png" alt="pres" height={175}/>
-                <p>Azza Jomni</p>
-                <p>President</p>
+  const teamMembers = [
+    {
+      name: "Azza Jomni",
+      role: "President",
+      image: "/amn.png",
+      id: "president",
+    },
+    {
+      name: "Tasnim Msallim",
+      role: "Vice President",
+      image: "/amn.png",
+      id: "vp",
+    },
+    {
+      name: "Mohamed Omar Soltani",
+      role: "General Secretary",
+      image: "/amn.png",
+      id: "gs",
+    },
+    {
+      name: "Ameni Tiba",
+      role: "Project Management Department",
+      image: "/amn.png",
+      id: "pm",
+    },
+    {
+      name: "Arij Ben Aicha",
+      role: "Public Relations",
+      image: "/amn.png",
+      id: "pr",
+    },
+    {
+      name: "Fedi",
+      role: "External Relations",
+      image: "/amn.png",
+      id: "er",
+    },
+    {
+      name: "Ata Bouslah",
+      role: "Human Resources",
+      image: "/amn.png",
+      id: "hr",
+    },
+    {
+      name: "Mohamed Belgacem",
+      role: "Marketing Department",
+      image: "/amn.png",
+      id: "marketing",
+    },
+  ];
+
+  return (
+    <main id="team" className={styles.team}>
+      <div className={styles.teamHeader}>
+        <h1 className={styles.meet}>Meet Our Team</h1>
+        <p className={styles.teamSubtitle}>
+          The passionate individuals behind Merit Club TBS
+        </p>
+      </div>
+
+      <div className={styles.teamGrid}>
+        {teamMembers.map((member, index) => (
+          <div key={member.id} className={styles.teamCard}>
+            <div className={styles.cardImage}>
+              <img src={member.image} alt={member.name} />
+              <div className={styles.cardOverlay}></div>
             </div>
-            <div className={`${styles.lead} ${styles.vp}`}>
-                <img src="/amn.png" alt="vp" height={175}/>
-                <p>Tasnim Msallim</p>
-                <p>Vice President</p>
+            <div className={styles.cardContent}>
+              <h3 className={styles.memberName}>{member.name}</h3>
+              <p className={styles.memberRole}>{member.role}</p>
             </div>
-            <div className={`${styles.lead} ${styles.gs}`}>
-                <img src="/amn.png" alt="gs" height={175}/>
-                <p>Tasnim Msallim</p>
-                <p>General Secretary</p>
-            </div>
-            <div className={`${styles.lead} ${styles.td}`}>
-                <img src="/amn.png" alt="td" height={175}/>
-                <p>Mohamed Belgacem</p>
-                <p>Training and Development Department</p>
-            </div>
-            <div className={`${styles.lead} ${styles.pm}`}>
-                <img src="/amn.png" alt="pm" height={175}/>
-                <p>Fedi</p>
-                <p>PM Department</p>
-            </div>
-            <div className={`${styles.lead} ${styles.hr}`}>
-                <img src="/amn.png" alt="hr" height={175}/>
-                <p>Ata Bouslah</p>
-                <p>HR Department</p>
-            </div>
-            <div className={`${styles.lead} ${styles.er}`}>
-                <img src="/amn.png" alt="er" height={175}/>
-                <p>Ata Bouslah</p>
-                <p>ER Department</p>
-            </div>
-            <div className={`${styles.lead} ${styles.mrk}`}>
-                <img src="/amn.png" alt="mrk" height={175}/>
-                <p>Mohamed Belgacem</p>
-                <p>Marketing Department</p>
-            </div>
-           </div> 
-        </main>
-    );
+          </div>
+        ))}
+      </div>
+    </main>
+  );
 };
 
 export default Team;

@@ -82,6 +82,67 @@ export default function Home() {
         <Hero onExploreClick={handleExploreClick} />
         <About onTeamClick={handleTeamClick} />
         <Team />
+        <div
+          id="events"
+          style={{
+            height: "100vh",
+            padding: "100px 20px",
+            textAlign: "center",
+            background: "#000000",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <h2
+            style={{ fontSize: "3rem", marginBottom: "2rem", color: "#fccc06" }}
+          >
+            Events
+          </h2>
+          <p
+            style={{
+              fontSize: "1.2rem",
+              color: "rgba(255, 255, 255, 0.8)",
+              maxWidth: "600px",
+              margin: "0 auto",
+            }}
+          >
+            Stay tuned for exciting upcoming events, workshops, and bootcamps
+            organized by Merit Club TBS.
+          </p>
+        </div>
+        <div
+          id="contact"
+          style={{
+            height: "100vh",
+            padding: "100px 20px",
+            textAlign: "center",
+            background: "#000000",
+            color: "white",
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <h2
+            style={{ fontSize: "3rem", marginBottom: "2rem", color: "#fccc06" }}
+          >
+            Contact Us
+          </h2>
+          <p
+            style={{
+              fontSize: "1.2rem",
+              color: "#ccc",
+              maxWidth: "600px",
+              margin: "0 auto",
+            }}
+          >
+            Get in touch with Merit Club TBS for collaborations, questions, or
+            to join our community.
+          </p>
+        </div>
       </SimpleBar>
     </main>
   );

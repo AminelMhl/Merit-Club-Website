@@ -72,10 +72,7 @@
   height: 48px;
   padding: 0 20px;
   border: 1px solid transparent;
-  transition:
-    background 0.2s,
-    color 0.2s,
-    border-color 0.2s;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -167,13 +164,12 @@ a.secondary {
 
 .about-container {
   display: grid;
-  height: 100vh;  
+  height: 100vh;
   grid-template-areas: "images about-text";
   padding-left: 2%;
   padding-right: 2%;
   padding-top: 2%;
   background: #000;
-
 }
 
 .images {
@@ -228,9 +224,7 @@ a.secondary {
 }
 
 .explorebtn img {
-  transition: box-shadow 0.3s, 
-  filter 0.3s, 
-  transform 0.3s;
+  transition: box-shadow 0.3s, filter 0.3s, transform 0.3s;
   transform-origin: left;
 }
 
@@ -238,49 +232,6 @@ a.secondary {
   transform: scale(1.05);
   box-shadow: 0 0 0 0;
   filter: brightness(1.2);
-}
-
-.team {
-  height: 100%;  
-  padding-left: 5%;
-  padding-right: 5%;
-  background: #000;
-}
-
-.meet {
-  font-size: 70px;
-  font-weight: 700;
-  font-family: Plus Jakarta Sans;
-  color: #fccc06;
-  text-align: center;
-  margin-bottom: 1rem;
-  margin-top: 0;
-}
-
-.teamContainer {
-  display: grid;
-  grid-template-areas: "pres vp gs td""pm hr er mrk";
-  align-items: center;
-  justify-content: space-between;
-  padding-left: 5%;
-  padding-right: 5%;
-}
-
-.lead {
-  border: 1px solid white;
-  border-radius: 5%;
-  margin-bottom: 10%;
-  width: 228px;
-  text-align: center;
-  height: 260px;
-}
-
-.lead > p {
-  margin: 5%
-}
-
-.lead > img {
-  border-radius: 5% 5% 0 0;
 }
 
 @media (prefers-color-scheme: dark) {
