@@ -1,0 +1,358 @@
+.contactSection {
+  min-height: 100vh;
+  padding: 40px 20px 20px;
+  background: #000000;
+  position: relative;
+}
+
+.contactSection::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: url("/bck.png") center/cover;
+  opacity: 0.02;
+  z-index: -1;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+.header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.title {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #fccc06;
+  margin-bottom: 10px;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(252, 204, 6, 0.3);
+}
+
+.subtitle {
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.8);
+  max-width: 500px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+
+.content {
+  display: grid;
+  grid-template-columns: 1fr 1.8fr;
+  gap: 30px;
+  align-items: start;
+}
+
+/* Contact Info Styles */
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.infoCard {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 18px;
+  text-align: center;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.infoCard::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #fccc06, rgba(252, 204, 6, 0.3));
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.infoCard:hover::before {
+  transform: scaleX(1);
+}
+
+.infoCard:hover {
+  transform: translateY(-5px);
+  border-color: rgba(252, 204, 6, 0.3);
+  box-shadow: 0 20px 40px rgba(252, 204, 6, 0.1);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.infoIcon {
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #fccc06, rgba(252, 204, 6, 0.8));
+  border-radius: 12px;
+  color: #000;
+  box-shadow: 0 8px 16px rgba(252, 204, 6, 0.3);
+}
+
+.infoIcon svg {
+  width: 20px;
+  height: 20px;
+}
+
+.infoCard h3 {
+  font-family: "Poppins", sans-serif;
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #fccc06;
+  margin-bottom: 6px;
+}
+
+.infoCard p {
+  font-family: "Poppins", sans-serif;
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.5;
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+/* Contact Form Styles */
+.contactForm {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  padding: 25px;
+  position: relative;
+  overflow: hidden;
+}
+
+.contactForm::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, #fccc06, rgba(252, 204, 6, 0.3));
+}
+
+.formGroup {
+  margin-bottom: 18px;
+}
+
+.inputField,
+.textareaField {
+  width: 100%;
+  padding: 14px 18px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+  outline: none;
+  box-sizing: border-box;
+}
+
+.inputField::placeholder,
+.textareaField::placeholder {
+  color: rgba(255, 255, 255, 0.6);
+}
+
+.inputField:focus,
+.textareaField:focus {
+  border-color: #fccc06;
+  box-shadow: 0 0 20px rgba(252, 204, 6, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.textareaField {
+  resize: vertical;
+  min-height: 100px;
+  font-family: "Poppins", sans-serif;
+}
+
+.submitButton {
+  width: 100%;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, #fccc06, rgba(252, 204, 6, 0.9));
+  border: none;
+  border-radius: 12px;
+  color: #000;
+  font-family: "Poppins", sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  position: relative;
+  overflow: hidden;
+}
+
+.submitButton::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.submitButton:hover::before {
+  left: 100%;
+}
+
+.submitButton:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 15px 30px rgba(252, 204, 6, 0.4);
+}
+
+.submitButton:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.successMessage,
+.errorMessage {
+  margin-top: 20px;
+  padding: 15px 20px;
+  border-radius: 10px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  text-align: center;
+}
+
+.successMessage {
+  background: rgba(34, 197, 94, 0.2);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+.errorMessage {
+  background: rgba(239, 68, 68, 0.2);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .content {
+    grid-template-columns: 1fr;
+    gap: 25px;
+  }
+
+  .contactInfo {
+    order: 2;
+  }
+
+  .contactForm {
+    order: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .contactSection {
+    padding: 60px 15px 30px;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 0.9rem;
+  }
+
+  .header {
+    margin-bottom: 15px;
+  }
+
+  .content {
+    gap: 20px;
+  }
+
+  .infoCard,
+  .contactForm {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 480px) {
+  .contactSection {
+    padding: 50px 10px 20px;
+  }
+
+  .title {
+    font-size: 1.8rem;
+  }
+
+  .subtitle {
+    font-size: 0.85rem;
+  }
+
+  .infoCard,
+  .contactForm {
+    padding: 12px;
+  }
+
+  .inputField,
+  .textareaField,
+  .submitButton {
+    padding: 12px 15px;
+    font-size: 0.85rem;
+  }
+
+  .textareaField {
+    min-height: 80px;
+  }
+
+  .formGroup {
+    margin-bottom: 15px;
+  }
+
+  .infoIcon {
+    width: 35px;
+    height: 35px;
+  }
+
+  .infoIcon svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .infoCard h3 {
+    font-size: 1rem;
+  }
+
+  .infoCard p {
+    font-size: 0.8rem;
+  }
+}

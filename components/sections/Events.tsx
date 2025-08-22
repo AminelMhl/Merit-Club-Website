@@ -1,6 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import styles from "./Events.module.css";
+import Timeline from "../ui/Timeline";
 
 interface Event {
   id: number;
@@ -31,7 +32,8 @@ const Events = () => {
       id: 3,
       title: "Code in the Dark",
       date: "May 2024",
-      description: "Contestants try to recreate a given picture of a web application.",
+      description:
+        "Contestants try to recreate a given picture of a web application.",
       image: "/about2.png",
     },
   ];
@@ -44,25 +46,8 @@ const Events = () => {
           Explore our journey through past workshops, bootcamps, and tech events
         </p>
 
-        <div className={styles.timeline}>
-          <div className={styles.timelineLine}></div>
-          {events.map((event, index) => (
-            <div key={event.id} className={styles.timelineItem}>
-              <div className={styles.timelineContent}>
-                <div className={styles.timelineImage}>
-                  <img src={event.image} alt={event.title} />
-                </div>
-                <div className={styles.timelineInfo}>
-                  <h3 className={styles.eventTitle}>{event.title}</h3>
-                  <span className={styles.eventDate}>{event.date}</span>
-                  <p className={styles.eventDescription}>{event.description}</p>
-                </div>
-              </div>
-              <div className={styles.timelineDot}></div>
-            </div>
-          ))}
-        </div>
-      </div>
+        <Timeline />
+    </div>
     </div>
   );
 };

@@ -1,0 +1,268 @@
+/* Merit Club Timeline Styles */
+
+:root {
+  --white: #ffffff;
+  --black: #000000;
+  --merit-yellow: #fccc06;
+  --midnight-green: #1a1a1a;
+  --crystal: rgba(255, 255, 255, 0.8);
+  --columbia-blue: rgba(252, 204, 6, 0.1);
+  --timeline-gradient: rgba(0, 0, 0, 0.8) 0%, transparent 100%;
+}
+
+.section {
+  padding: 50px 0;
+  background: #000000;
+  color: var(--white);
+}
+
+.container {
+  width: 90%;
+  max-width: 1200px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.section h1 {
+  font-size: 3rem;
+  line-height: 1.25;
+  font-family: "Poppins", sans-serif;
+  color: var(--merit-yellow);
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-shadow: 0 2px 8px rgba(252, 204, 6, 0.3);
+  margin-bottom: 1rem;
+}
+
+.section h2 {
+  font-size: 1.3rem;
+  font-family: "Poppins", sans-serif;
+  color: var(--merit-yellow);
+  font-weight: 600;
+}
+
+.section p {
+  font-family: "Poppins", sans-serif;
+  color: var(--crystal);
+  font-size: 1.2rem;
+}
+
+/* TIMELINE */
+.timeline {
+  position: relative;
+  white-space: nowrap;
+  max-width: 100%;
+  width: 100%;
+  padding: 0 20px;
+  margin: 0 auto;
+  background: #000000;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.timeline::before,
+.timeline::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 30px;
+  width: 100px;
+  z-index: 2;
+}
+
+.timeline::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--timeline-gradient));
+}
+
+.timeline::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--timeline-gradient));
+}
+
+.info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 20px 40px;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  white-space: normal;
+  border-radius: 20px;
+}
+
+.info img {
+  margin-bottom: 20px;
+  filter: brightness(0) saturate(100%) invert(85%) sepia(78%) saturate(2603%)
+    hue-rotate(2deg) brightness(103%) contrast(97%);
+}
+
+.info p {
+  margin-top: 10px;
+  color: var(--crystal);
+  font-family: "Poppins", sans-serif;
+}
+
+.timeline ol::-webkit-scrollbar {
+  height: 12px;
+}
+
+.timeline ol::-webkit-scrollbar-thumb,
+.timeline ol::-webkit-scrollbar-track {
+  border-radius: 92px;
+}
+
+.timeline ol::-webkit-scrollbar-thumb {
+  background: var(--merit-yellow);
+}
+
+.timeline ol::-webkit-scrollbar-track {
+  background: var(--midnight-green);
+}
+
+.timeline ol {
+  font-size: 0;
+  padding: 60px 0;
+  transition: all 1s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: nowrap;
+  gap: 12px;
+  overflow: visible;
+}
+
+.timeline ol li {
+  position: relative;
+  display: block;
+  list-style-type: none;
+  width: 100px;
+  height: 6px;
+  background: var(--merit-yellow);
+  flex-shrink: 0;
+}
+
+.timeline ol li:last-child {
+  width: 100px;
+}
+
+.timeline ol li:not(:first-child) {
+  margin-left: 0;
+}
+
+.timeline ol li:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: calc(100% + 1px);
+  bottom: 0;
+  width: 14px;
+  height: 14px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: var(--merit-yellow);
+  z-index: 1;
+}
+
+.timeline ol li div {
+  position: absolute;
+  left: calc(100% + 5px);
+  width: 200px;
+  padding: 10px;
+  font-size: 0.9rem;
+  white-space: normal;
+  color: var(--white);
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0 10px 10px 10px;
+  font-family: "Poppins", sans-serif;
+}
+
+.timeline ol li div::before {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 0;
+  height: 0;
+  border-style: solid;
+}
+
+.timeline ol li:nth-child(odd) div {
+  top: -16px;
+  transform: translateY(-100%);
+  border-radius: 10px 10px 10px 0;
+}
+
+.timeline ol li:nth-child(odd) div::before {
+  top: 100%;
+  border-width: 8px 8px 0 0;
+  border-color: rgba(255, 255, 255, 0.05) transparent transparent transparent;
+}
+
+.timeline ol li:nth-child(even) div {
+  top: calc(100% + 16px);
+}
+
+.timeline ol li:nth-child(even) div::before {
+  top: -8px;
+  border-width: 8px 0 0 8px;
+  border-color: transparent transparent transparent rgba(255, 255, 255, 0.05);
+}
+
+.time {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: bold;
+  margin-bottom: 8px;
+  color: var(--merit-yellow);
+  font-family: "Poppins", sans-serif;
+}
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 800px) {
+  .timeline {
+    display: block;
+  }
+
+  .timeline::before,
+  .timeline::after {
+    width: 50px;
+  }
+
+  .timeline::before {
+    left: 0;
+  }
+
+  .info {
+    display: none;
+  }
+}
+
+/* FOOTER */
+.pageFooter {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  padding: 5px;
+  z-index: 2;
+  color: var(--white);
+  background: var(--merit-yellow);
+  font-family: "Poppins", sans-serif;
+  border-radius: 10px 0 0 0;
+}
+
+.pageFooter span {
+  color: var(--black);
+  font-weight: 600;
+}
+
+.pageFooter a {
+  display: flex;
+  margin-left: 4px;
+}

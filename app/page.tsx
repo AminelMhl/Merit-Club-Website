@@ -4,6 +4,7 @@ import Hero from "@/components/sections/Hero";
 import About from "@/components/sections/About";
 import Team from "@/components/sections/Team";
 import Events from "@/components/sections/Events";
+import Contact from "@/components/sections/Contact";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { useEffect, useRef } from "react";
@@ -84,38 +85,7 @@ export default function Home() {
         <About onTeamClick={handleTeamClick} />
         <Team />
         <Events />
-
-        <div
-          id="contact"
-          style={{
-            height: "100vh",
-            padding: "100px 20px",
-            textAlign: "center",
-            background: "#000000",
-            color: "white",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            alignItems: "center",
-          }}
-        >
-          <h2
-            style={{ fontSize: "3rem", marginBottom: "2rem", color: "#fccc06" }}
-          >
-            Contact Us
-          </h2>
-          <p
-            style={{
-              fontSize: "1.2rem",
-              color: "#ccc",
-              maxWidth: "600px",
-              margin: "0 auto",
-            }}
-          >
-            Get in touch with Merit Club TBS for collaborations, questions, or
-            to join our community.
-          </p>
-        </div>
+        <Contact />
       </SimpleBar>
     </main>
   );

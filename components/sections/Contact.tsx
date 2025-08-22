@@ -1,0 +1,170 @@
+"use client";
+import React, { useState } from "react";
+import styles from "./Contact.module.css";
+
+const Contact = () => {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"success" | "error" | null>(
+    null
+  );
+
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus(null);
+
+    // Simulate form submission
+    try {
+      await new Promise((resolve) => setTimeout(resolve, 2000));
+      // Here you would typically send the data to your backend
+      console.log("Form submitted:", formData);
+      setSubmitStatus("success");
+      setFormData({ name: "", email: "", subject: "", message: "" });
+    } catch (error) {
+      setSubmitStatus("error");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  return (
+    <div id="contact" className={styles.contactSection}>
+      <div className={styles.container}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Get In Touch</h2>
+          <p className={styles.subtitle}>
+            Have a question or want to collaborate? We'd love to hear from you.
+          </p>
+        </div>
+
+        <div className={styles.content}>
+          <div className={styles.contactInfo}>
+            <div className={styles.infoCard}>
+              <div className={styles.infoIcon}>
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" />
+                </svg>
+              </div>
+              <h3>Location</h3>
+              <p>
+                Tunis Business School
+                <br />
+                Tunis, Tunisia
+              </p>
+            </div>
+
+            <div className={styles.infoCard}>
+              <div className={styles.infoIcon}>
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z" />
+                </svg>
+              </div>
+              <h3>Phone</h3>
+              <p>+216 XX XXX XXX</p>
+            </div>
+
+            <div className={styles.infoCard}>
+              <div className={styles.infoIcon}>
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
+                </svg>
+              </div>
+              <h3>Email</h3>
+              <p>contact@merit-tbs.com</p>
+            </div>
+          </div>
+
+          <form className={styles.contactForm} onSubmit={handleSubmit}>
+            <div className={styles.formGroup}>
+              <input
+                type="text"
+                name="name"
+                placeholder="Your Name"
+                value={formData.name}
+                onChange={handleInputChange}
+                required
+                className={styles.inputField}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <input
+                type="email"
+                name="email"
+                placeholder="Your Email"
+                value={formData.email}
+                onChange={handleInputChange}
+                required
+                className={styles.inputField}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <input
+                type="text"
+                name="subject"
+                placeholder="Subject"
+                value={formData.subject}
+                onChange={handleInputChange}
+                required
+                className={styles.inputField}
+              />
+            </div>
+
+            <div className={styles.formGroup}>
+              <textarea
+                name="message"
+                placeholder="Your Message"
+                value={formData.message}
+                onChange={handleInputChange}
+                required
+                rows={6}
+                className={styles.textareaField}
+              />
+            </div>
+
+            <button
+              type="submit"
+              disabled={isSubmitting}
+              className={styles.submitButton}
+            >
+              {isSubmitting ? "Sending..." : "Send Message"}
+            </button>
+
+            {submitStatus === "success" && (
+              <div className={styles.successMessage}>
+                Thank you! Your message has been sent successfully.
+              </div>
+            )}
+
+            {submitStatus === "error" && (
+              <div className={styles.errorMessage}>
+                Sorry, there was an error sending your message. Please try
+                again.
+              </div>
+            )}
+          </form>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Contact;
