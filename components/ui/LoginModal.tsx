@@ -1,5 +1,6 @@
 "use client";
 import React, { useState } from "react";
+import { useRouter } from "next/navigation";
 import styles from "./LoginModal.module.css";
 
 interface LoginModalProps {
@@ -8,21 +9,34 @@ interface LoginModalProps {
 }
 
 export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
+  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Demo validation
     if (!email || !password) {
       setError("Please enter both email and password.");
       return;
     }
     setError("");
-    // TODO: Add authentication logic here
-    alert("Logged in successfully!");
-    onClose();
+    try {
+      const res = await fetch("/api/auth/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({ error: "Login failed" }));
+        setError(data.error || "Login failed");
+        return;
+      }
+      onClose();
+      router.replace("/dashboard");
+    } catch (err) {
+      setError("Network error. Please try again.");
+    }
   };
 
   const handleBackdropClick = (e: React.MouseEvent) => {

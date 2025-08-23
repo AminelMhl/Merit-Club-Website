@@ -1,0 +1,21 @@
+// Prisma schema for users manually seeded by admins
+// Using SQLite for easy local dev (can swap to Postgres/MySQL later)
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  password  String   // bcrypt hash
+  name      String?
+  department      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
