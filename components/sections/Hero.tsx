@@ -1,9 +1,22 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
+import React, { useState } from "react";
 import styles from "./Hero.module.css";
 import Scrollindicator from "../ui/Scrollindicator";
+import LoginModal from "../ui/LoginModal";
 
 const Hero = ({ onExploreClick }: { onExploreClick: () => void }) => {
+
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+   const handleLoginClick = () => {
+    setIsLoginModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsLoginModalOpen(false);
+  };
+
   return (
     <div id="home" className={styles.heroSection}>
       <h1 className={styles.text}>
@@ -41,10 +54,16 @@ const Hero = ({ onExploreClick }: { onExploreClick: () => void }) => {
         <button className={styles.exploreBtn} onClick={onExploreClick}>
           Explore more
         </button>
-        <Link href="/login" className={styles.loginHeroBtn}>
+        <button
+          onClick={handleLoginClick}
+          className={styles.loginHeroBtn}
+        >
           Login
-        </Link>
+        </button>
       </div>
+
+      <LoginModal isOpen={isLoginModalOpen} onClose={handleCloseModal} />
+
       <Scrollindicator />
     </div>
   );

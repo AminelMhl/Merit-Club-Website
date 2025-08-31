@@ -10,7 +10,7 @@
   backdrop-filter: blur(8px);
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   top: 0;
-  z-index: 1000;
+  z-index: 1002;
   transition: all 0.3s ease;
 }
 
@@ -18,6 +18,13 @@
   height: 50px;
   background: rgba(0, 0, 0, 0.95);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .scrolled {
+    height: auto;
+    min-height: 60px;
+  }
 }
 
 .logo {
@@ -116,7 +123,6 @@
 .loginBtn:hover {
   box-shadow: 0 6px 12px rgba(252, 170, 0, 0.4);
   background: linear-gradient(135deg, #ffb700, #ffd54f);
-  transform: translateY(-1px);
 }
 
 .loginBtn:active {
@@ -126,28 +132,78 @@
 
 @media (max-width: 768px) {
   .navbar {
-    padding: 0 1.5rem;
+    padding: 0 1rem;
     height: auto;
     flex-direction: column;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    min-height: 70px;
+  }
+
+  .logo {
+    margin-bottom: 0.75rem;
+    margin-top: 0;
   }
 
   .links {
-    margin-top: 1.2rem;
+    margin-top: 0;
     flex-direction: column;
     width: 100%;
-    gap: 1.2rem;
+    gap: 0.75rem;
+    align-items: center;
   }
 
   .links li {
-    width: 100%;
+    width: auto;
     text-align: center;
+  }
+
+  .links li a,
+  .navButton {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
   }
 
   .loginBtn {
     margin-top: 0.5rem;
-    width: 100%;
+    width: auto;
+    min-width: 120px;
     max-width: 200px;
+    height: 36px;
+  }
+
+  .loginButton {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar {
+    padding: 0 0.75rem;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+  }
+
+  .logo {
+    margin-bottom: 0.5rem;
+  }
+
+  .links {
+    gap: 0.5rem;
+  }
+
+  .links li a,
+  .navButton {
+    font-size: 0.85rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .loginBtn {
+    height: 34px;
+    min-width: 100px;
+  }
+
+  .loginButton {
+    font-size: 0.85rem;
   }
 }

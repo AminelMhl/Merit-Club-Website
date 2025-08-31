@@ -1,16 +1,28 @@
 "use client";
 
-import Link from "next/link";
 import Image from "next/image";
 import { useState } from "react";
+import { useRouter, usePathname } from "next/navigation";
 import styles from "./Navbar.module.css";
 import { useScroll } from "./ScrollContext";
 import LoginModal from "./LoginModal";
 import { scrollToSection } from "../../utils/scrollUtils";
+import { logout } from "@/lib/clientAuth";
 
-const Navbar = () => {
+interface NavbarProps {
+  user?: {
+    id: number;
+    email: string;
+    name?: string | null;
+    department?: string;
+  } | null;
+}
+
+const Navbar = ({ user }: NavbarProps) => {
   const { scrolled } = useScroll();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const router = useRouter();
+  const pathname = usePathname();
 
   const handleLoginClick = () => {
     setIsLoginModalOpen(true);
@@ -20,7 +32,17 @@ const Navbar = () => {
     setIsLoginModalOpen(false);
   };
 
+  const handleLogoutClick = () => {
+    logout();
+  };
+
   const handleNavClick = (sectionId: string) => {
+    if (pathname !== "/") {
+      router.push(`/#${sectionId}`);
+      return;
+    }
+
+    // If we're on the home page, scroll to section
     scrollToSection(sectionId);
   };
 
@@ -70,9 +92,18 @@ const Navbar = () => {
             </button>
           </li>
           <li className={styles.loginBtn}>
-            <button onClick={handleLoginClick} className={styles.loginButton}>
-              Login
-            </button>
+            {user ? (
+              <button
+                onClick={handleLogoutClick}
+                className={styles.loginButton}
+              >
+                Logout
+              </button>
+            ) : (
+              <button onClick={handleLoginClick} className={styles.loginButton}>
+                Login
+              </button>
+            )}
           </li>
         </ul>
       </nav>
