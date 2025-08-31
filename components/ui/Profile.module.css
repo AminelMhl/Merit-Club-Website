@@ -1,0 +1,328 @@
+.profileContainer {
+  min-height: 100vh;
+  background: #000;
+  color: #fff;
+  font-family: "Poppins", sans-serif;
+  padding: 1.5rem 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profileCard {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 450px;
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.backButton {
+  background: rgba(252, 204, 6, 0.1);
+  border: 1px solid rgba(252, 204, 6, 0.3);
+  color: #fccc06;
+  padding: 0.4rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  grid-column: 1;
+  width: fit-content;
+}
+
+.backButton:hover {
+  background: rgba(252, 204, 6, 0.2);
+  border-color: #fccc06;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #fccc06;
+  margin: 0;
+  grid-column: 1 / -1;
+  text-align: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+/* Avatar Section */
+.avatarSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+
+.avatarContainer {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  cursor: pointer;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 3px solid rgba(252, 204, 6, 0.3);
+  transition: all 0.3s ease;
+}
+
+.avatarContainer:hover {
+  border-color: #fccc06;
+  transform: scale(1.05);
+}
+
+.avatarContainer:hover .avatarOverlay {
+  opacity: 1;
+}
+
+.avatarImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.avatarPlaceholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #fcaa00, #ffcc29);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #000;
+}
+
+.avatarOverlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  gap: 0.25rem;
+}
+
+.cameraIcon {
+  font-size: 1.25rem;
+}
+
+.changeText {
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.fileInput {
+  display: none;
+}
+
+.avatarHint {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+  text-align: center;
+  margin: 0;
+}
+
+/* Input Groups */
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #fccc06;
+  margin: 0;
+}
+
+.input {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 8px;
+  padding: 0.75rem 1rem;
+  font-size: 1rem;
+  color: #fff;
+  transition: all 0.3s ease;
+  font-family: "Poppins", sans-serif;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #fccc06;
+  background: rgba(255, 255, 255, 0.08);
+  box-shadow: 0 0 0 3px rgba(252, 204, 6, 0.1);
+}
+
+.input.disabled {
+  background: rgba(255, 255, 255, 0.02);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.5);
+  cursor: not-allowed;
+}
+
+/* Message */
+.message {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-align: center;
+}
+
+.message.success {
+  background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  color: #22c55e;
+}
+
+.message.error {
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.3);
+  color: #ef4444;
+}
+
+/* Submit Button */
+.submitButton {
+  background: linear-gradient(135deg, #fcaa00, #ffcc29);
+  border: none;
+  border-radius: 10px;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  margin-top: 0.75rem;
+  font-family: "Poppins", sans-serif;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(252, 170, 0, 0.4);
+  background: linear-gradient(135deg, #ffb700, #ffd54f);
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .profileContainer {
+    padding: 1rem 0.5rem;
+  }
+
+  .profileCard {
+    padding: 1.25rem;
+    border-radius: 14px;
+    max-width: 400px;
+  }
+
+  .header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+    position: static;
+  }
+
+  .backButton {
+    align-self: flex-start;
+    font-size: 0.75rem;
+    padding: 0.35rem 0.5rem;
+  }
+
+  .title {
+    font-size: 1.3rem;
+    position: static;
+    transform: none;
+    left: auto;
+    text-align: center;
+  }
+
+  .avatarContainer {
+    width: 90px;
+    height: 90px;
+  }
+
+  .avatarPlaceholder {
+    font-size: 1.25rem;
+  }
+
+  .form {
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .profileContainer {
+    padding: 0.75rem 0.25rem;
+  }
+
+  .profileCard {
+    padding: 1rem;
+    border-radius: 12px;
+    max-width: 350px;
+  }
+
+  .avatarContainer {
+    width: 80px;
+    height: 80px;
+  }
+
+  .avatarPlaceholder {
+    font-size: 1.1rem;
+  }
+
+  .title {
+    font-size: 1.2rem;
+    position: static;
+    transform: none;
+    left: auto;
+  }
+
+  .input {
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;
+  }
+
+  .submitButton {
+    padding: 0.65rem 1.25rem;
+    font-size: 0.9rem;
+  }
+}

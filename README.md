@@ -1,5 +1,24 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
+## Merit Club TBS Website
+
+A modern web application for Merit Club TBS with authentication, dashboard, and profile management.
+
+### Features
+
+- 🏠 **Home Page**: Modern landing page with Merit Club branding
+- 🔐 **Authentication**: Secure login system with session management
+- 📊 **Dashboard**: Comprehensive dashboard with tasks, notifications, and stats
+- 👤 **Profile Management**: User profile page with avatar upload and name editing
+- 📱 **Responsive Design**: Optimized for all screen sizes
+- 🎨 **Modern UI**: Glassmorphism design with Merit Club colors (#fccc06)
+
+### Pages
+
+- `/` - Home page with login functionality
+- `/Dashboard` - User dashboard (requires authentication)
+- `/Profile` - User profile management (requires authentication)
+
 ## Getting Started
 
 First, run the development server:

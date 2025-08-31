@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { logout } from "@/lib/clientAuth";
 import styles from "./Dashboard.module.css";
 import Navbar from "./Navbar";
@@ -9,6 +10,8 @@ type User = {
   email: string;
   name?: string | null;
   department?: string;
+  avatar?: string | null;
+  points?: number;
 };
 
 interface Notification {
@@ -32,6 +35,7 @@ export default function Dashboard({ user }: { user: User }) {
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -120,7 +124,9 @@ export default function Dashboard({ user }: { user: User }) {
                     <h4>Notifications</h4>
                   </div>
                   {notifications.length == 0 ? (
-                    <center><h3>No new notifications.</h3></center>
+                    <center>
+                      <h3>No new notifications.</h3>
+                    </center>
                   ) : (
                     notifications.map((notif) => (
                       <div
@@ -149,7 +155,20 @@ export default function Dashboard({ user }: { user: User }) {
                 className={styles.userAvatar}
                 onClick={() => setDropdownOpen(!dropdownOpen)}
               >
-                {getInitials(user.name || user.email)}
+                {user.avatar ? (
+                  <img
+                    src={user.avatar} // ✅ Use user.avatar directly (already includes full path)
+                    alt={user.name || user.email}
+                    className={styles.avatarImg}
+                    onError={(e) => {
+                      // Fallback to initials if image fails to load
+                      const target = e.target as HTMLImageElement;
+                      target.style.display = "none";
+                    }}
+                  />
+                ) : (
+                  getInitials(user.name || user.email)
+                )}
               </button>
 
               {dropdownOpen && (
@@ -157,7 +176,26 @@ export default function Dashboard({ user }: { user: User }) {
                   <div className={styles.dropdownHeader}>
                     <div className={styles.userInfo}>
                       <div className={styles.userAvatarLarge}>
-                        {getInitials(user.name || user.email)}
+                        {user.avatar ? (
+                          <img
+                            src={user.avatar} // ✅ Use user.avatar directly (already includes full path)
+                            alt={user.name || user.email}
+                            className={styles.avatarImgLarge}
+                            onError={(e) => {
+                              const target = e.target as HTMLImageElement;
+                              target.style.display = "none";
+                              // Show initials fallback
+                              const parent = target.parentElement;
+                              if (parent) {
+                                parent.innerHTML = getInitials(
+                                  user.name || user.email
+                                );
+                              }
+                            }}
+                          />
+                        ) : (
+                          getInitials(user.name || user.email)
+                        )}
                       </div>
                       <div>
                         <p className={styles.userNameDropdown}>
@@ -168,7 +206,12 @@ export default function Dashboard({ user }: { user: User }) {
                     </div>
                   </div>
                   <div className={styles.dropdownMenu}>
-                    <button className={styles.dropdownItem}>👤 Profile</button>
+                    <button
+                      className={styles.dropdownItem}
+                      onClick={() => router.push("/Profile")}
+                    >
+                      👤 Profile
+                    </button>
                     <button className={styles.dropdownItem}>⚙️ Settings</button>
                     <button className={styles.dropdownItem} onClick={logout}>
                       🚪 Logout

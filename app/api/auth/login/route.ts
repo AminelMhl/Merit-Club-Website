@@ -40,7 +40,8 @@ export async function POST(req: Request) {
       id: user.id,
       email: user.email,
       name: user.name,
-      department: user.department ?? undefined,
+      department: undefined,
+      avatar: null,
     };
     await session.save();
     return res;

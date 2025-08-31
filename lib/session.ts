@@ -8,13 +8,14 @@ export interface SessionData {
     email: string;
     name?: string | null;
     department?: string;
+    avatar?: string | null;
   };
 }
 
 const computedPassword =
   process.env.SESSION_PASSWORD && process.env.SESSION_PASSWORD.length >= 32
     ? process.env.SESSION_PASSWORD
-    : "hansoo+aminemh@test1234567891234"; // >=32 chars
+    : "hansoo+aminemh@test1234567891234";
 
 export const sessionOptions: SessionOptions = {
   cookieName: "merit_session",
