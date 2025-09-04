@@ -9,6 +9,7 @@ import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 import { useEffect, useRef } from "react";
 import { useScroll } from "@/components/ui/ScrollContext";
+import Footer from "@/components/ui/Footer";
 
 export default function Home() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -86,6 +87,7 @@ export default function Home() {
         <Team />
         <Events />
         <Contact />
+        <Footer />
       </SimpleBar>
     </main>
   );

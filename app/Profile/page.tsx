@@ -14,7 +14,7 @@ export default async function ProfilePage() {
     id: session.user.id,
     email: session.user.email,
     name: session.user.name,
-    avatar: session.user.avatar, // ✅ Use actual avatar from session
+    avatar: session.user.avatar, 
     points: 0,
     department: session.user.department,
   };

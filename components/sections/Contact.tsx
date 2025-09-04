@@ -30,14 +30,23 @@ const Contact = () => {
     setIsSubmitting(true);
     setSubmitStatus(null);
 
-    // Simulate form submission
     try {
-      await new Promise((resolve) => setTimeout(resolve, 2000));
-      // Here you would typically send the data to your backend
-      console.log("Form submitted:", formData);
-      setSubmitStatus("success");
-      setFormData({ name: "", email: "", subject: "", message: "" });
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        setSubmitStatus("error");
+      }
     } catch (error) {
+      console.error("Error sending email:", error);
       setSubmitStatus("error");
     } finally {
       setIsSubmitting(false);
@@ -77,7 +86,7 @@ const Contact = () => {
                 </svg>
               </div>
               <h3>Phone</h3>
-              <p>+216 XX XXX XXX</p>
+              <p>+216 97 158 090</p>
             </div>
 
             <div className={styles.infoCard}>
@@ -87,7 +96,7 @@ const Contact = () => {
                 </svg>
               </div>
               <h3>Email</h3>
-              <p>contact@merit-tbs.com</p>
+              <p>geeks.merittbs@gmail.com</p>
             </div>
           </div>
 

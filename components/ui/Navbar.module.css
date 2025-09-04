@@ -36,6 +36,12 @@
   margin-top: 12px;
 }
 
+.logo img {
+  object-fit: contain;
+  max-height: 70px;
+  width: auto;
+}
+
 .links {
   display: flex;
   list-style: none;
@@ -145,6 +151,10 @@
     margin-top: 0;
   }
 
+  .logo img {
+    max-height: 55px;
+  }
+
   .links {
     margin-top: 0;
     flex-direction: column;
@@ -186,6 +196,10 @@
 
   .logo {
     margin-bottom: 0.5rem;
+  }
+
+  .logo img {
+    max-height: 50px;
   }
 
   .links {

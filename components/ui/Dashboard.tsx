@@ -212,7 +212,6 @@ export default function Dashboard({ user }: { user: User }) {
                     >
                       👤 Profile
                     </button>
-                    <button className={styles.dropdownItem}>⚙️ Settings</button>
                     <button className={styles.dropdownItem} onClick={logout}>
                       🚪 Logout
                     </button>

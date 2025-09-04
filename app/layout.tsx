@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import NavbarWrapper from "@/components/ui/NavbarWrapper";
+import FooterWrapper from "@/components/ui/FooterWrapper";
 import { ScrollProvider } from "@/components/ui/ScrollContext";
 
 const geistSans = Geist({
@@ -16,6 +17,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "Merit Club TBS",
+  description: "Merit Club TBS - Tunis Business School",
+  icons: {
+    icon: "/icon.png",
+  },
 };
 
 export default function RootLayout({

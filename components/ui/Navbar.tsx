@@ -7,7 +7,6 @@ import styles from "./Navbar.module.css";
 import { useScroll } from "./ScrollContext";
 import LoginModal from "./LoginModal";
 import { scrollToSection } from "../../utils/scrollUtils";
-import { logout } from "@/lib/clientAuth";
 
 interface NavbarProps {
   user?: {
@@ -32,8 +31,8 @@ const Navbar = ({ user }: NavbarProps) => {
     setIsLoginModalOpen(false);
   };
 
-  const handleLogoutClick = () => {
-    logout();
+  const handleDashboardClick = () => {
+    router.push("/dashboard");
   };
 
   const handleNavClick = (sectionId: string) => {
@@ -42,7 +41,6 @@ const Navbar = ({ user }: NavbarProps) => {
       return;
     }
 
-    // If we're on the home page, scroll to section
     scrollToSection(sectionId);
   };
 
@@ -94,10 +92,10 @@ const Navbar = ({ user }: NavbarProps) => {
           <li className={styles.loginBtn}>
             {user ? (
               <button
-                onClick={handleLogoutClick}
+                onClick={handleDashboardClick}
                 className={styles.loginButton}
               >
-                Logout
+                Dashboard
               </button>
             ) : (
               <button onClick={handleLoginClick} className={styles.loginButton}>

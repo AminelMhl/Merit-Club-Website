@@ -1,0 +1,264 @@
+/* Footer Styles - Merit Club TBS Theme */
+
+.footer {
+  background: linear-gradient(135deg, #000000 0%, #111111 100%);
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  margin-top: auto;
+  border-top: 2px solid rgba(252, 204, 6, 0.3);
+  position: relative;
+  z-index: 1;
+}
+
+.footerContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 30px 20px 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 30px;
+}
+
+/* Logo Section */
+.footerSection {
+  display: flex;
+  flex-direction: column;
+}
+
+.logoSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  margin-bottom: 20px;
+}
+
+.footerLogo {
+  object-fit: contain;
+  margin-bottom: 10px;
+}
+
+.clubName {
+  color: #fccc06;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin: 0;
+  text-shadow: 0 2px 4px rgba(252, 204, 6, 0.3);
+}
+
+.description {
+  color: rgba(255, 255, 255, 0.8);
+  line-height: 1.6;
+  font-size: 0.95rem;
+  margin: 0;
+}
+
+/* Section Titles */
+.sectionTitle {
+  color: #fccc06;
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Quick Links */
+.linksList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.linksList li {
+  margin-bottom: 12px;
+}
+
+.footerLink {
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  font-size: 0.95rem;
+  transition: all 0.3s ease;
+  display: inline-block;
+}
+
+.footerLink:hover {
+  color: #fccc06;
+  transform: translateX(5px);
+  text-shadow: 0 2px 4px rgba(252, 204, 6, 0.3);
+}
+
+/* Social Media */
+.socialContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.socialLink {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  text-decoration: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.socialLink:hover {
+  background: rgba(252, 204, 6, 0.1);
+  border-color: rgba(252, 204, 6, 0.3);
+  color: #fccc06;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.socialIcon {
+  font-size: 1.5rem;
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.socialSvg {
+  width: 20px;
+  height: 20px;
+  transition: transform 0.3s ease;
+}
+
+.socialLink:hover .socialIcon {
+  transform: scale(1.1);
+}
+
+.socialName {
+  font-weight: 500;
+  font-size: 0.95rem;
+}
+
+/* Contact Info */
+.contactInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contactItem {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: rgba(255, 255, 255, 0.8);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+.contactIcon {
+  font-size: 1.2rem;
+  color: #fccc06;
+  min-width: 20px;
+}
+
+/* Bottom Bar */
+.bottomBar {
+  background: rgba(0, 0, 0, 0.8);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 20px 0;
+}
+
+.bottomContent {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.copyright {
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+.bottomLinks {
+  display: flex;
+  gap: 20px;
+}
+
+.bottomLink {
+  color: rgba(255, 255, 255, 0.6);
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.bottomLink:hover {
+  color: #fccc06;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .footerContainer {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+    padding: 25px 15px 20px;
+  }
+
+  .socialContainer {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .socialLink {
+    flex-direction: column;
+    text-align: center;
+    padding: 8px;
+    min-width: 70px;
+  }
+
+  .socialName {
+    font-size: 0.8rem;
+  }
+
+  .bottomContent {
+    flex-direction: column;
+    text-align: center;
+    gap: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .footerContainer {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 20px 10px 15px;
+  }
+
+  .logoSection {
+    align-items: center;
+    text-align: center;
+  }
+
+  .description {
+    text-align: center;
+  }
+
+  .socialContainer {
+    justify-content: center;
+  }
+
+  .contactInfo {
+    align-items: center;
+    text-align: center;
+  }
+
+  .contactItem {
+    justify-content: center;
+  }
+}

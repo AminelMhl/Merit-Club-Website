@@ -16,7 +16,10 @@ export async function POST(req: Request) {
         { status: 400 }
       );
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+      where: { email },
+      include: { department: true }, // ✅ Include department relation
+    });
     if (!user)
       return NextResponse.json(
         { error: "Invalid credentials" },
@@ -40,8 +43,8 @@ export async function POST(req: Request) {
       id: user.id,
       email: user.email,
       name: user.name,
-      department: undefined,
-      avatar: null,
+      department: user.department?.name, // ✅ Use department name if exists
+      avatar: user.avatar, // ✅ Use actual avatar from database
     };
     await session.save();
     return res;
