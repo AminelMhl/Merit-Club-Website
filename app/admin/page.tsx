@@ -1,17 +1,17 @@
 import { redirect } from "next/navigation";
 import { getSession } from "@/lib/session";
-import Dashboard from "@/components/ui/Dashboard";
+import AdminDashboard from "@/components/ui/AdminDashboard";
 
 export const dynamic = "force-dynamic";
 export const revalidate = 0;
 export const runtime = "nodejs";
 
-export default async function DashboardPage() {
+export default async function AdminPage() {
   const session = await getSession();
   if (!session.user) redirect("/");
 
-  // Redirect admin users to admin dashboard
-  if (session.user.isAdmin) redirect("/admin");
+  // Redirect non-admin users to regular dashboard
+  if (!session.user.isAdmin) redirect("/dashboard");
 
   const userData = {
     id: session.user.id,
@@ -22,5 +22,5 @@ export default async function DashboardPage() {
     isAdmin: session.user.isAdmin,
   };
 
-  return <Dashboard user={userData} />;
+  return <AdminDashboard user={userData} />;
 }

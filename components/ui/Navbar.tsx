@@ -7,6 +7,7 @@ import styles from "./Navbar.module.css";
 import { useScroll } from "./ScrollContext";
 import LoginModal from "./LoginModal";
 import { scrollToSection } from "../../utils/scrollUtils";
+import { logout } from "@/lib/clientAuth";
 
 interface NavbarProps {
   user?: {
@@ -14,6 +15,7 @@ interface NavbarProps {
     email: string;
     name?: string | null;
     department?: string;
+    isAdmin?: boolean;
   } | null;
 }
 
@@ -32,7 +34,15 @@ const Navbar = ({ user }: NavbarProps) => {
   };
 
   const handleDashboardClick = () => {
-    router.push("/dashboard");
+    if (user?.isAdmin) {
+      router.push("/admin");
+    } else {
+      router.push("/dashboard");
+    }
+  };
+
+  const handleLogoutClick = () => {
+    logout();
   };
 
   const handleNavClick = (sectionId: string) => {
@@ -91,12 +101,22 @@ const Navbar = ({ user }: NavbarProps) => {
           </li>
           <li className={styles.loginBtn}>
             {user ? (
-              <button
-                onClick={handleDashboardClick}
-                className={styles.loginButton}
-              >
-                Dashboard
-              </button>
+              // Show logout button if admin and on admin page, otherwise show dashboard button
+              user.isAdmin && pathname === "/admin" ? (
+                <button
+                  onClick={handleLogoutClick}
+                  className={styles.loginButton}
+                >
+                  Logout
+                </button>
+              ) : (
+                <button
+                  onClick={handleDashboardClick}
+                  className={styles.loginButton}
+                >
+                  {user.isAdmin ? "Admin Dashboard" : "Dashboard"}
+                </button>
+              )
             ) : (
               <button onClick={handleLoginClick} className={styles.loginButton}>
                 Login

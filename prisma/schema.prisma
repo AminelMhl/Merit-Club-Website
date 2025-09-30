@@ -11,18 +11,20 @@ datasource db {
 }
 
 model User {
-  id           Int          @id @default(autoincrement())
-  email        String       @unique
-  password     String       // bcrypt hash
-  name         String       // required
-  avatar       String?
-  points       Int          @default(0)
-  department   Department?  @relation(fields: [departmentId], references: [id])
-  departmentId Int?
+  id            Int            @id @default(autoincrement())
+  email         String         @unique
+  password      String         // bcrypt hash
+  name          String         // required
+  avatar        String?
+  points        Int            @default(0)
+  department    Department?    @relation(fields: [departmentId], references: [id])
+  departmentId  Int?
+  isAdmin       Boolean        @default(false)
 
-  tasks        Task[]       // A user can have many tasks
-  createdAt    DateTime     @default(now())
-  updatedAt    DateTime     @updatedAt
+  tasks         Task[]         // A user can have many tasks
+  notifications Notification[] // A user can have many notifications
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
 }
 
 model Department {
@@ -42,6 +44,20 @@ model Task {
 
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
+
+  @@index([userId])
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  message   String
+  read      Boolean  @default(false)
+
+  user      User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    Int?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   @@index([userId])
 }

@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
+import prisma from "@/lib/db";
 import { getSession } from "@/lib/session";
 
 export async function GET() {
@@ -12,15 +13,24 @@ export async function GET() {
       );
     }
 
-    // For now, return session data - will be updated when Prisma client is regenerated
+    // Fetch latest user data from database
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+      include: { department: true },
+    });
+
+    if (!user) {
+      return NextResponse.json({ message: "User not found" }, { status: 404 });
+    }
+
     return NextResponse.json({
       user: {
-        id: session.user.id,
-        email: session.user.email,
-        name: session.user.name,
-        avatar: session.user.avatar || null, // Get from session if available
-        points: 0,
-        department: session.user.department,
+        id: user.id,
+        email: user.email,
+        name: user.name,
+        avatar: user.avatar,
+        points: user.points,
+        department: user.department?.name,
       },
     });
   } catch (error) {

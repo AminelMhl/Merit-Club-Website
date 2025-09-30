@@ -18,7 +18,7 @@ export async function POST(req: Request) {
 
     const user = await prisma.user.findUnique({
       where: { email },
-      include: { department: true }, // ✅ Include department relation
+      include: { department: true },
     });
     if (!user)
       return NextResponse.json(
@@ -34,7 +34,6 @@ export async function POST(req: Request) {
       );
 
     const cookieStore = await cookies();
-    const res = NextResponse.json({ ok: true });
     const session = await getIronSession<SessionData>(
       cookieStore,
       sessionOptions
@@ -43,10 +42,16 @@ export async function POST(req: Request) {
       id: user.id,
       email: user.email,
       name: user.name,
-      department: user.department?.name, // ✅ Use department name if exists
-      avatar: user.avatar, // ✅ Use actual avatar from database
+      department: user.department?.name,
+      avatar: user.avatar,
+      points: user.points,
+      isAdmin: (user as any).isAdmin,
     };
     await session.save();
+
+    // Redirect based on admin status
+    const redirectPath = (user as any).isAdmin ? "/admin" : "/dashboard";
+    const res = NextResponse.json({ ok: true, redirectPath });
     return res;
   } catch (e) {
     console.error(e);

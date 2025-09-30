@@ -32,8 +32,10 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
         setError(data.error || "Login failed");
         return;
       }
+
+      const data = await res.json();
       onClose();
-      router.replace("/dashboard");
+      router.replace(data.redirectPath || "/dashboard");
     } catch (err) {
       setError("Network error. Please try again.");
     }

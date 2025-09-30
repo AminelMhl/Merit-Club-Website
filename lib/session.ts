@@ -9,6 +9,8 @@ export interface SessionData {
     name?: string | null;
     department?: string;
     avatar?: string | null;
+    points?: number;
+    isAdmin?: boolean;
   };
 }
 

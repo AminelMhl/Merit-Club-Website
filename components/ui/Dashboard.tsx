@@ -12,6 +12,7 @@ type User = {
   department?: string;
   avatar?: string | null;
   points?: number;
+  isAdmin?: boolean;
 };
 
 interface Notification {
@@ -24,10 +25,11 @@ interface Notification {
 interface Task {
   id: number;
   title: string;
-  description: string;
-  points: number;
+  description?: string;
+  points?: number;
   completed: boolean;
-  dueDate: string;
+  dueDate?: string;
+  createdAt: string;
 }
 
 export default function Dashboard({ user }: { user: User }) {
@@ -57,18 +59,81 @@ export default function Dashboard({ user }: { user: User }) {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
   const [notifications, setNotifications] = useState<Notification[]>([]);
-
   const [tasks, setTasks] = useState<Task[]>([]);
+  const [currentPoints, setCurrentPoints] = useState(user.points || 0);
+  const [loading, setLoading] = useState(true);
 
-  const memberPoints = 0;
+  // Fetch latest user data including points and tasks
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        // Fetch user profile data
+        const profileResponse = await fetch("/api/profile");
+        if (profileResponse.ok) {
+          const userData = await profileResponse.json();
+          setCurrentPoints(userData.user.points || 0);
+        }
+
+        // Fetch user tasks
+        const tasksResponse = await fetch("/api/tasks");
+        if (tasksResponse.ok) {
+          const tasksData = await tasksResponse.json();
+          setTasks(tasksData.tasks || []);
+        }
+      } catch (error) {
+        console.error("Failed to fetch user data:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  const memberPoints = currentPoints;
   const unreadCount = notifications.filter((n) => !n.read).length;
 
-  const toggleTask = (taskId: number) => {
-    setTasks((prev) =>
-      prev.map((task) =>
-        task.id === taskId ? { ...task, completed: !task.completed } : task
-      )
-    );
+  const toggleTask = async (taskId: number) => {
+    try {
+      const currentTask = tasks.find(t => t.id === taskId);
+      if (!currentTask) return;
+
+      // Optimistically update UI
+      setTasks((prev) =>
+        prev.map((task) =>
+          task.id === taskId ? { ...task, completed: !task.completed } : task
+        )
+      );
+
+      // Update task completion status in database
+      const response = await fetch(`/api/tasks/${taskId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          completed: !currentTask.completed
+        })
+      });
+
+      if (!response.ok) {
+        // Revert on error
+        setTasks((prev) =>
+          prev.map((task) =>
+            task.id === taskId ? { ...task, completed: !task.completed } : task
+          )
+        );
+        console.error('Failed to update task');
+      }
+    } catch (error) {
+      console.error('Error updating task:', error);
+      // Revert on error
+      setTasks((prev) =>
+        prev.map((task) =>
+          task.id === taskId ? { ...task, completed: !task.completed } : task
+        )
+      );
+    }
   };
 
   const markNotificationRead = (notificationId: number) => {
@@ -85,6 +150,11 @@ export default function Dashboard({ user }: { user: User }) {
       .map((n) => n[0])
       .join("")
       .toUpperCase();
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
   };
 
   return (
@@ -238,7 +308,7 @@ export default function Dashboard({ user }: { user: User }) {
               <div className={styles.statIcon}>✅</div>
               <div className={styles.statContent}>
                 <h3 className={styles.statNumber}>
-                  {tasks.filter((t) => t.completed).length}
+                  {loading ? '...' : tasks.filter((t) => t.completed).length}
                 </h3>
                 <p className={styles.statLabel}>Tasks Completed</p>
               </div>
@@ -248,7 +318,7 @@ export default function Dashboard({ user }: { user: User }) {
               <div className={styles.statIcon}>📋</div>
               <div className={styles.statContent}>
                 <h3 className={styles.statNumber}>
-                  {tasks.filter((t) => !t.completed).length}
+                  {loading ? '...' : tasks.filter((t) => !t.completed).length}
                 </h3>
                 <p className={styles.statLabel}>Pending Tasks</p>
               </div>
@@ -259,7 +329,9 @@ export default function Dashboard({ user }: { user: User }) {
           <div className={styles.tasksSection}>
             <h2 className={styles.sectionTitle}>Your Tasks</h2>
             <div className={styles.tasksList}>
-              {tasks.length == 0 ? (
+              {loading ? (
+                <h1 className={styles.noTasks}>Loading tasks...</h1>
+              ) : tasks.length == 0 ? (
                 <h1 className={styles.noTasks}>
                   You have no tasks, for now...
                 </h1>
@@ -282,16 +354,20 @@ export default function Dashboard({ user }: { user: User }) {
                       </div>
                       <div className={styles.taskInfo}>
                         <h4 className={styles.taskTitle}>{task.title}</h4>
-                        <p className={styles.taskDescription}>
-                          {task.description}
-                        </p>
+                        {task.description && (
+                          <p className={styles.taskDescription}>
+                            {task.description}
+                          </p>
+                        )}
                       </div>
                       <div className={styles.taskMeta}>
-                        <span className={styles.taskPoints}>
-                          +{task.points} pts
-                        </span>
+                        {task.points && (
+                          <span className={styles.taskPoints}>
+                            +{task.points} pts
+                          </span>
+                        )}
                         <span className={styles.taskDue}>
-                          Due: {task.dueDate}
+                          Created: {formatDate(task.createdAt)}
                         </span>
                       </div>
                     </div>
