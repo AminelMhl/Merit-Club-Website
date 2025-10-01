@@ -34,7 +34,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showPointsModal, setShowPointsModal] = useState(false);
-  
+
   const [taskForm, setTaskForm] = useState({
     title: "",
     userId: "",
@@ -355,6 +355,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
               <div className={styles.formGroup}>
                 <label>Assign to User</label>
                 <select
+                  className={styles.userSelect}
                   value={taskForm.userId}
                   onChange={(e) =>
                     setTaskForm({ ...taskForm, userId: e.target.value })
@@ -408,6 +409,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
               <div className={styles.formGroup}>
                 <label>Send to User</label>
                 <select
+                  className={styles.userSelect}
                   value={notificationForm.userId}
                   onChange={(e) =>
                     setNotificationForm({
@@ -463,6 +465,7 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
               <div className={styles.formGroup}>
                 <label>Add to User</label>
                 <select
+                  className={styles.userSelect}
                   value={pointsForm.userId}
                   onChange={(e) =>
                     setPointsForm({ ...pointsForm, userId: e.target.value })

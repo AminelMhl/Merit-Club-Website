@@ -8,6 +8,9 @@
   flex-direction: column;
   justify-content: center;
   overflow: hidden;
+  contain: layout style paint;
+  will-change: scroll-position;
+  transform: translate3d(0, 0, 0);
 }
 
 .teamHeader {
@@ -23,7 +26,8 @@
   margin-bottom: 6px;
   margin-top: 0;
   letter-spacing: 1px;
-  text-shadow: 0 4px 8px rgba(252, 204, 6, 0.3);
+  text-shadow: 0 2px 4px rgba(252, 204, 6, 0.2);
+  transform: translateZ(0);
 }
 
 .teamSubtitle {
@@ -43,24 +47,27 @@
   max-width: 1150px;
   margin: 0 auto;
   padding: 0 20px;
+  contain: layout style;
+  transform: translateZ(0);
 }
 
 .teamCard {
   background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(20px);
   border-radius: 20px;
   overflow: hidden;
-  transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+  transition: transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
   position: relative;
+  will-change: transform;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  contain: layout style paint;
 }
 
 .teamCard:hover {
-  transform: translateY(-10px) scale(1.02);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 0 1px rgba(252, 204, 6, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transform: translateY(-6px) translateZ(0);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
   border-color: rgba(252, 204, 6, 0.4);
 }
 
@@ -72,13 +79,14 @@
 
 .cardImage img {
   width: 100%;
-  height: 100%;
+  height: 120%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.25s cubic-bezier(0.25, 0.1, 0.25, 1);
+  display: block;
 }
 
 .teamCard:hover .cardImage img {
-  transform: scale(1.1);
+  transform: scale(1.05) translateZ(0);
 }
 
 .cardOverlay {
@@ -98,6 +106,38 @@
 
 .teamCard:hover .cardOverlay {
   opacity: 0.8;
+}
+
+.linkedinIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  background: rgba(41, 51, 56, 0.9);
+  border-radius: 50%;
+  color: white;
+  text-decoration: none;
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border: 2px solid rgba(255, 255, 255, 0.2);
+  will-change: opacity, transform, background;
+}
+
+.teamCard:hover .linkedinIcon {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.linkedinIcon:hover {
+  background: rgba(252, 204, 6, 0.9);
+  border-color: rgba(252, 204, 6, 0.6);
+  transform: translate(-50%, -50%) scale(1.2);
+  box-shadow: 0 4px 12px rgba(252, 204, 6, 0.3);
 }
 
 .cardContent {

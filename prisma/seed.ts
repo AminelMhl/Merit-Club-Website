@@ -3,15 +3,21 @@ import bcrypt from "bcryptjs";
 
 async function main() {
   // Create departments first
-  const techDept = await prisma.department.upsert({
-    where: { name: "Technology" },
-    create: { name: "Technology" },
+  const hrDept = await prisma.department.upsert({
+    where: { name: "Human Recources" },
+    create: { name: "Human Recources" },
     update: {},
   });
 
   const marketingDept = await prisma.department.upsert({
     where: { name: "Marketing" },
     create: { name: "Marketing" },
+    update: {},
+  });
+
+  const pmDept = await prisma.department.upsert({
+    where: { name: "Project Management" },
+    create: { name: "Project Management" },
     update: {},
   });
 
@@ -26,13 +32,13 @@ async function main() {
       password: adminPassword,
       name: "Admin User",
       isAdmin: true,
-      departmentId: techDept.id,
+      departmentId: hrDept.id,
     },
     update: {
       password: adminPassword,
       name: "Admin User",
       isAdmin: true,
-      departmentId: techDept.id,
+      departmentId: hrDept.id,
     },
   });
 
@@ -47,14 +53,14 @@ async function main() {
       password: memberPassword,
       name: "Merit Member",
       isAdmin: false,
-      departmentId: techDept.id,
+      departmentId: hrDept.id,
       points: 50,
     },
     update: {
       password: memberPassword,
       name: "Merit Member",
       isAdmin: false,
-      departmentId: techDept.id,
+      departmentId: hrDept.id,
     },
   });
 
@@ -99,6 +105,48 @@ async function main() {
       departmentId: marketingDept.id,
     },
   });
+
+  // Create sample notifications
+  const member1 = await prisma.user.findUnique({
+    where: { email: memberEmail },
+  });
+  const member2 = await prisma.user.findUnique({
+    where: { email: member2Email },
+  });
+
+  if (member1) {
+    await (prisma as any).notification.upsert({
+      where: { id: 1 },
+      create: {
+        message: "Welcome to Merit Club! Check out your first task.",
+        userId: member1.id,
+        read: false,
+      },
+      update: {},
+    });
+
+    await (prisma as any).notification.upsert({
+      where: { id: 2 },
+      create: {
+        message: "You've been assigned a new project task. Good luck!",
+        userId: member1.id,
+        read: false,
+      },
+      update: {},
+    });
+  }
+
+  if (member2) {
+    await (prisma as any).notification.upsert({
+      where: { id: 3 },
+      create: {
+        message: "Great job on completing your last task! Keep it up.",
+        userId: member2.id,
+        read: false,
+      },
+      update: {},
+    });
+  }
 
   console.log("Seeded users:");
   console.log("Admin:", adminEmail, "password: admin123");

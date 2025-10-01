@@ -102,9 +102,11 @@
 }
 
 .notificationItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   padding: 0.75rem 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-  cursor: pointer;
   transition: background 0.3s ease;
 }
 
@@ -117,6 +119,11 @@
   border-left: 3px solid #fccc06;
 }
 
+.notificationContent {
+  flex: 1;
+  cursor: pointer;
+}
+
 .notificationMessage {
   margin: 0 0 0.25rem 0;
   font-size: 0.9rem;
@@ -126,6 +133,26 @@
 .notificationTime {
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.6);
+}
+
+.deleteButton {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  margin-left: 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteButton:hover {
+  color: #ff4757;
+  background: rgba(255, 71, 87, 0.1);
+  transform: scale(1.1);
 }
 
 /* User Avatar Styles */
@@ -497,6 +524,33 @@
   color: white;
 }
 
+.formGroup select option {
+  background: #1a1a1a;
+  color: white;
+  padding: 0.5rem;
+}
+
+.formGroup select option:hover {
+  background: #333;
+}
+
+.userSelect {
+  background: rgba(0, 0, 0, 0.8) !important;
+  color: white !important;
+}
+
+.userSelect option {
+  background: #2a2a2a !important;
+  color: white !important;
+  padding: 0.5rem !important;
+  border: none !important;
+}
+
+.userSelect option:checked {
+  background: #fccc06 !important;
+  color: black !important;
+}
+
 .formGroup input:focus,
 .formGroup textarea:focus,
 .formGroup select:focus {
@@ -623,9 +677,35 @@
 
 .taskMeta {
   display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.taskMetaContent {
+  display: flex;
   flex-direction: column;
   gap: 0.25rem;
   align-items: flex-end;
+}
+
+.deleteTaskButton {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  padding: 0.25rem;
+  border-radius: 4px;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.deleteTaskButton:hover {
+  color: #ff4757;
+  background: rgba(255, 71, 87, 0.1);
+  transform: scale(1.1);
 }
 
 .taskPoints {

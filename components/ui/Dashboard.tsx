@@ -18,8 +18,9 @@ type User = {
 interface Notification {
   id: number;
   message: string;
-  time: string;
   read: boolean;
+  createdAt: string;
+  updatedAt: string;
 }
 
 interface Task {
@@ -80,6 +81,13 @@ export default function Dashboard({ user }: { user: User }) {
           const tasksData = await tasksResponse.json();
           setTasks(tasksData.tasks || []);
         }
+
+        // Fetch user notifications
+        const notificationsResponse = await fetch("/api/notifications");
+        if (notificationsResponse.ok) {
+          const notificationsData = await notificationsResponse.json();
+          setNotifications(notificationsData.notifications || []);
+        }
       } catch (error) {
         console.error("Failed to fetch user data:", error);
       } finally {
@@ -95,10 +103,10 @@ export default function Dashboard({ user }: { user: User }) {
 
   const toggleTask = async (taskId: number) => {
     try {
-      const currentTask = tasks.find(t => t.id === taskId);
+      const currentTask = tasks.find((t) => t.id === taskId);
       if (!currentTask) return;
 
-      // Optimistically update UI
+      // Update UI
       setTasks((prev) =>
         prev.map((task) =>
           task.id === taskId ? { ...task, completed: !task.completed } : task
@@ -107,13 +115,13 @@ export default function Dashboard({ user }: { user: User }) {
 
       // Update task completion status in database
       const response = await fetch(`/api/tasks/${taskId}`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          completed: !currentTask.completed
-        })
+          completed: !currentTask.completed,
+        }),
       });
 
       if (!response.ok) {
@@ -123,10 +131,10 @@ export default function Dashboard({ user }: { user: User }) {
             task.id === taskId ? { ...task, completed: !task.completed } : task
           )
         );
-        console.error('Failed to update task');
+        console.error("Failed to update task");
       }
     } catch (error) {
-      console.error('Error updating task:', error);
+      console.error("Error updating task:", error);
       // Revert on error
       setTasks((prev) =>
         prev.map((task) =>
@@ -136,12 +144,113 @@ export default function Dashboard({ user }: { user: User }) {
     }
   };
 
-  const markNotificationRead = (notificationId: number) => {
-    setNotifications((prev) =>
-      prev.map((notif) =>
-        notif.id === notificationId ? { ...notif, read: true } : notif
-      )
-    );
+  const markNotificationRead = async (notificationId: number) => {
+    try {
+      // Optimistically update UI
+      setNotifications((prev) =>
+        prev.map((notif) =>
+          notif.id === notificationId ? { ...notif, read: true } : notif
+        )
+      );
+
+      // Update notification in database
+      const response = await fetch("/api/notifications", {
+        method: "PATCH",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          notificationId: notificationId,
+        }),
+      });
+
+      if (!response.ok) {
+        // Revert on error
+        setNotifications((prev) =>
+          prev.map((notif) =>
+            notif.id === notificationId ? { ...notif, read: false } : notif
+          )
+        );
+        console.error("Failed to mark notification as read");
+      }
+    } catch (error) {
+      console.error("Error marking notification as read:", error);
+      // Revert on error
+      setNotifications((prev) =>
+        prev.map((notif) =>
+          notif.id === notificationId ? { ...notif, read: false } : notif
+        )
+      );
+    }
+  };
+
+  const deleteNotification = async (notificationId: number) => {
+    try {
+      // Optimistically remove from UI
+      setNotifications((prev) =>
+        prev.filter((notif) => notif.id !== notificationId)
+      );
+
+      // Delete notification from database
+      const response = await fetch(`/api/notifications/${notificationId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        // Revert on error - would need to refetch to restore properly
+        console.error("Failed to delete notification");
+        // Refetch notifications to restore state
+        const notificationsResponse = await fetch("/api/notifications");
+        if (notificationsResponse.ok) {
+          const notificationsData = await notificationsResponse.json();
+          setNotifications(notificationsData.notifications || []);
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting notification:", error);
+      // Refetch notifications on error
+      const notificationsResponse = await fetch("/api/notifications");
+      if (notificationsResponse.ok) {
+        const notificationsData = await notificationsResponse.json();
+        setNotifications(notificationsData.notifications || []);
+      }
+    }
+  };
+
+  const deleteTask = async (taskId: number, isCompleted: boolean) => {
+    if (!isCompleted) {
+      alert("You can only delete completed tasks!");
+      return;
+    }
+
+    try {
+      // Optimistically remove from UI
+      setTasks((prev) => prev.filter((task) => task.id !== taskId));
+
+      // Delete task from database
+      const response = await fetch(`/api/tasks/${taskId}`, {
+        method: "DELETE",
+      });
+
+      if (!response.ok) {
+        // Revert on error - would need to refetch to restore properly
+        console.error("Failed to delete task");
+        // Refetch tasks to restore state
+        const tasksResponse = await fetch("/api/tasks");
+        if (tasksResponse.ok) {
+          const tasksData = await tasksResponse.json();
+          setTasks(tasksData.tasks || []);
+        }
+      }
+    } catch (error) {
+      console.error("Error deleting task:", error);
+      // Refetch tasks on error
+      const tasksResponse = await fetch("/api/tasks");
+      if (tasksResponse.ok) {
+        const tasksData = await tasksResponse.json();
+        setTasks(tasksData.tasks || []);
+      }
+    }
   };
 
   const getInitials = (name: string) => {
@@ -155,6 +264,22 @@ export default function Dashboard({ user }: { user: User }) {
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString();
+  };
+
+  const formatNotificationTime = (dateString: string) => {
+    const date = new Date(dateString);
+    const now = new Date();
+    const diffInHours = (now.getTime() - date.getTime()) / (1000 * 60 * 60);
+
+    if (diffInHours < 1) {
+      const diffInMinutes = Math.floor(diffInHours * 60);
+      return `${diffInMinutes}m ago`;
+    } else if (diffInHours < 24) {
+      return `${Math.floor(diffInHours)}h ago`;
+    } else {
+      const diffInDays = Math.floor(diffInHours / 24);
+      return `${diffInDays}d ago`;
+    }
   };
 
   return (
@@ -204,14 +329,42 @@ export default function Dashboard({ user }: { user: User }) {
                         className={`${styles.notificationItem} ${
                           !notif.read ? styles.unread : ""
                         }`}
-                        onClick={() => markNotificationRead(notif.id)}
                       >
-                        <p className={styles.notificationMessage}>
-                          {notif.message}
-                        </p>
-                        <span className={styles.notificationTime}>
-                          {notif.time}
-                        </span>
+                        <div
+                          className={styles.notificationContent}
+                          onClick={() => markNotificationRead(notif.id)}
+                        >
+                          <p className={styles.notificationMessage}>
+                            {notif.message}
+                          </p>
+                          <span className={styles.notificationTime}>
+                            {formatNotificationTime(notif.createdAt)}
+                          </span>
+                        </div>
+                        <button
+                          className={styles.deleteButton}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            deleteNotification(notif.id);
+                          }}
+                          title="Delete notification"
+                        >
+                          <svg
+                            width="16"
+                            height="16"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="2"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          >
+                            <polyline points="3,6 5,6 21,6"></polyline>
+                            <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                            <line x1="10" y1="11" x2="10" y2="17"></line>
+                            <line x1="14" y1="11" x2="14" y2="17"></line>
+                          </svg>
+                        </button>
                       </div>
                     ))
                   )}
@@ -308,7 +461,7 @@ export default function Dashboard({ user }: { user: User }) {
               <div className={styles.statIcon}>✅</div>
               <div className={styles.statContent}>
                 <h3 className={styles.statNumber}>
-                  {loading ? '...' : tasks.filter((t) => t.completed).length}
+                  {loading ? "..." : tasks.filter((t) => t.completed).length}
                 </h3>
                 <p className={styles.statLabel}>Tasks Completed</p>
               </div>
@@ -318,7 +471,7 @@ export default function Dashboard({ user }: { user: User }) {
               <div className={styles.statIcon}>📋</div>
               <div className={styles.statContent}>
                 <h3 className={styles.statNumber}>
-                  {loading ? '...' : tasks.filter((t) => !t.completed).length}
+                  {loading ? "..." : tasks.filter((t) => !t.completed).length}
                 </h3>
                 <p className={styles.statLabel}>Pending Tasks</p>
               </div>
@@ -361,14 +514,39 @@ export default function Dashboard({ user }: { user: User }) {
                         )}
                       </div>
                       <div className={styles.taskMeta}>
-                        {task.points && (
-                          <span className={styles.taskPoints}>
-                            +{task.points} pts
+                        <div className={styles.taskMetaContent}>
+                          {task.points && (
+                            <span className={styles.taskPoints}>
+                              +{task.points} pts
+                            </span>
+                          )}
+                          <span className={styles.taskDue}>
+                            Created: {formatDate(task.createdAt)}
                           </span>
+                        </div>
+                        {task.completed && (
+                          <button
+                            className={styles.deleteTaskButton}
+                            onClick={() => deleteTask(task.id, task.completed)}
+                            title="Delete completed task"
+                          >
+                            <svg
+                              width="14"
+                              height="14"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="3,6 5,6 21,6"></polyline>
+                              <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                              <line x1="10" y1="11" x2="10" y2="17"></line>
+                              <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                          </button>
                         )}
-                        <span className={styles.taskDue}>
-                          Created: {formatDate(task.createdAt)}
-                        </span>
                       </div>
                     </div>
                   </div>
