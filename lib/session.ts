@@ -11,6 +11,7 @@ export interface SessionData {
     avatar?: string | null;
     points?: number;
     isAdmin?: boolean;
+    adminRole?: string | null;
   };
 }
 

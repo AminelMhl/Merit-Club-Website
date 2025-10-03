@@ -41,16 +41,10 @@ export default function LoginModal({ isOpen, onClose }: LoginModalProps) {
     }
   };
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
-      onClose();
-    }
-  };
-
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalOverlay} onClick={handleBackdropClick}>
+    <div className={styles.modalOverlay}>
       <div className={styles.loginBox}>
         <button className={styles.closeButton} onClick={onClose}>
           ×

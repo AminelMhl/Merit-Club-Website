@@ -4,7 +4,7 @@ import { getSession } from "@/lib/session";
 
 export const runtime = "nodejs";
 
-// Add points to a user
+// Update user points (add or subtract)
 export async function POST(request: Request) {
   try {
     const session = await getSession();
@@ -15,7 +15,7 @@ export async function POST(request: Request) {
 
     const { points, userId } = await request.json();
 
-    if (!points || !userId || points <= 0) {
+    if (!points || !userId || points === 0) {
       return NextResponse.json(
         { error: "Valid points amount and user ID are required" },
         { status: 400 }
@@ -32,6 +32,26 @@ export async function POST(request: Request) {
       );
     }
 
+    // Get current user to check if reduction would result in negative points
+    const currentUser = await prisma.user.findUnique({
+      where: { id: userIdInt },
+      select: { points: true, name: true },
+    });
+
+    if (!currentUser) {
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
+    }
+
+    // Check if point reduction would result in negative points
+    if (pointsToAdd < 0 && currentUser.points + pointsToAdd < 0) {
+      return NextResponse.json(
+        {
+          error: `Cannot reduce points below 0. User currently has ${currentUser.points} points.`,
+        },
+        { status: 400 }
+      );
+    }
+
     // Update user points
     const updatedUser = await prisma.user.update({
       where: { id: userIdInt },
@@ -42,12 +62,18 @@ export async function POST(request: Request) {
       },
     });
 
+    const action = pointsToAdd > 0 ? "added" : "reduced";
+    const absolutePoints = Math.abs(pointsToAdd);
+
     return NextResponse.json({
-      message: `Successfully added ${pointsToAdd} points to user`,
+      message: `Successfully ${action} ${absolutePoints} points ${
+        pointsToAdd > 0 ? "to" : "from"
+      } ${currentUser.name}`,
       newTotal: updatedUser.points,
+      previousTotal: currentUser.points,
     });
   } catch (error) {
-    console.error("Error adding points:", error);
+    console.error("Error updating points:", error);
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }

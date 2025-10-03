@@ -4,8 +4,8 @@ import bcrypt from "bcryptjs";
 async function main() {
   // Create departments first
   const hrDept = await prisma.department.upsert({
-    where: { name: "Human Recources" },
-    create: { name: "Human Recources" },
+    where: { name: "Human Resources" },
+    create: { name: "Human Resources" },
     update: {},
   });
 
@@ -21,24 +21,132 @@ async function main() {
     update: {},
   });
 
-  // Create admin user
-  const adminEmail = "admin@merit.tbs";
-  const adminPassword = await bcrypt.hash("admin123", 10);
+  const erDept = await prisma.department.upsert({
+    where: { name: "External Relations" },
+    create: { name: "External Relations" },
+    update: {},
+  });
+
+  const prDept = await prisma.department.upsert({
+    where: { name: "Public Relations" },
+    create: { name: "Public Relations" },
+    update: {},
+  });
+
+  // Create admin users with different roles
+  const presidentEmail = "president@merit.tbs";
+  const presidentPassword = await bcrypt.hash("admin123", 10);
 
   await prisma.user.upsert({
-    where: { email: adminEmail },
+    where: { email: presidentEmail },
     create: {
-      email: adminEmail,
-      password: adminPassword,
-      name: "Admin User",
+      email: presidentEmail,
+      password: presidentPassword,
+      name: "Club President",
       isAdmin: true,
+      adminRole: "president",
       departmentId: hrDept.id,
+      points: 500,
     },
     update: {
-      password: adminPassword,
-      name: "Admin User",
+      password: presidentPassword,
+      name: "Club President",
       isAdmin: true,
+      adminRole: "president",
       departmentId: hrDept.id,
+    },
+  });
+
+  const vpEmail = "vp@merit.tbs";
+  const vpPassword = await bcrypt.hash("admin123", 10);
+
+  await prisma.user.upsert({
+    where: { email: vpEmail },
+    create: {
+      email: vpEmail,
+      password: vpPassword,
+      name: "Vice President",
+      isAdmin: true,
+      adminRole: "vice_president",
+      departmentId: hrDept.id,
+      points: 400,
+    },
+    update: {
+      password: vpPassword,
+      name: "Vice President",
+      isAdmin: true,
+      adminRole: "vice_president",
+      departmentId: hrDept.id,
+    },
+  });
+
+  const gsEmail = "gs@merit.tbs";
+  const gsPassword = await bcrypt.hash("admin123", 10);
+
+  await prisma.user.upsert({
+    where: { email: gsEmail },
+    create: {
+      email: gsEmail,
+      password: gsPassword,
+      name: "General Secretary",
+      isAdmin: true,
+      adminRole: "general_secretary",
+      departmentId: hrDept.id,
+      points: 350,
+    },
+    update: {
+      password: gsPassword,
+      name: "General Secretary",
+      isAdmin: true,
+      adminRole: "general_secretary",
+      departmentId: hrDept.id,
+    },
+  });
+
+  // Create department head admins
+  const marketingHeadEmail = "marketing.head@merit.tbs";
+  const marketingHeadPassword = await bcrypt.hash("admin123", 10);
+
+  await prisma.user.upsert({
+    where: { email: marketingHeadEmail },
+    create: {
+      email: marketingHeadEmail,
+      password: marketingHeadPassword,
+      name: "Marketing Head",
+      isAdmin: true,
+      adminRole: "department_head",
+      departmentId: marketingDept.id,
+      points: 300,
+    },
+    update: {
+      password: marketingHeadPassword,
+      name: "Marketing Head",
+      isAdmin: true,
+      adminRole: "department_head",
+      departmentId: marketingDept.id,
+    },
+  });
+
+  const pmHeadEmail = "pm.head@merit.tbs";
+  const pmHeadPassword = await bcrypt.hash("admin123", 10);
+
+  await prisma.user.upsert({
+    where: { email: pmHeadEmail },
+    create: {
+      email: pmHeadEmail,
+      password: pmHeadPassword,
+      name: "PM Head",
+      isAdmin: true,
+      adminRole: "department_head",
+      departmentId: pmDept.id,
+      points: 280,
+    },
+    update: {
+      password: pmHeadPassword,
+      name: "PM Head",
+      isAdmin: true,
+      adminRole: "department_head",
+      departmentId: pmDept.id,
     },
   });
 
@@ -149,7 +257,11 @@ async function main() {
   }
 
   console.log("Seeded users:");
-  console.log("Admin:", adminEmail, "password: admin123");
+  console.log("President:", presidentEmail, "password: admin123");
+  console.log("Vice President:", vpEmail, "password: admin123");
+  console.log("General Secretary:", gsEmail, "password: admin123");
+  console.log("Marketing Head:", marketingHeadEmail, "password: admin123");
+  console.log("PM Head:", pmHeadEmail, "password: admin123");
   console.log("Member:", memberEmail, "password: password123");
   console.log("Member:", member2Email, "password: password123");
   console.log("Member:", member3Email, "password: password123");

@@ -46,6 +46,7 @@ export async function POST(req: Request) {
       avatar: user.avatar,
       points: user.points,
       isAdmin: (user as any).isAdmin,
+      adminRole: (user as any).adminRole,
     };
     await session.save();
 

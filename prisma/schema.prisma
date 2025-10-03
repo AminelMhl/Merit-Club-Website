@@ -20,6 +20,7 @@ model User {
   department    Department?    @relation(fields: [departmentId], references: [id])
   departmentId  Int?
   isAdmin       Boolean        @default(false)
+  adminRole     String?        // "president", "vice_president", "general_secretary", "department_head"
 
   tasks         Task[]         // A user can have many tasks
   notifications Notification[] // A user can have many notifications

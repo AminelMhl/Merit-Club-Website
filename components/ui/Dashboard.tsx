@@ -96,6 +96,21 @@ export default function Dashboard({ user }: { user: User }) {
     };
 
     fetchUserData();
+
+    // Set up periodic refresh to keep points updated
+    const refreshInterval = setInterval(async () => {
+      try {
+        const profileResponse = await fetch("/api/profile");
+        if (profileResponse.ok) {
+          const userData = await profileResponse.json();
+          setCurrentPoints(userData.user.points || 0);
+        }
+      } catch (error) {
+        console.error("Failed to refresh points:", error);
+      }
+    }, 10000); // Refresh every 10 seconds
+
+    return () => clearInterval(refreshInterval);
   }, []);
 
   const memberPoints = currentPoints;
