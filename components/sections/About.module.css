@@ -73,3 +73,161 @@
   box-shadow: 0 0 0 0;
   filter: brightness(1.2);
 }
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .about-container {
+    grid-template-areas:
+      "about-text"
+      "images";
+    grid-template-rows: auto auto;
+    height: auto;
+    padding: 2% 4%;
+  }
+
+  .images {
+    margin-top: 20px;
+    text-align: center;
+  }
+
+  .images img {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+  }
+
+  .about-text {
+    padding: 4% 2%;
+  }
+
+  .aboutH1 {
+    font-size: 42px;
+    line-height: 50px;
+  }
+
+  .aboutText {
+    font-size: 18px;
+    padding-left: 2%;
+  }
+}
+
+@media (max-width: 768px) {
+  .about-container {
+    padding: 3% 5%;
+    height: auto;
+  }
+
+  .about-text {
+    padding: 3% 1%;
+  }
+
+  .bit {
+    font-size: 16px;
+    letter-spacing: 4px;
+    text-align: center;
+  }
+
+  .aboutH1 {
+    font-size: 36px;
+    line-height: 42px;
+    letter-spacing: 3px;
+    text-align: center;
+  }
+
+  .aboutText {
+    font-size: 16px;
+    line-height: 1.5;
+    padding-left: 0;
+    padding-top: 4%;
+    text-align: justify;
+  }
+
+  .explorebtn {
+    padding-left: 0;
+    padding-top: 3%;
+    text-align: center;
+  }
+
+  .explorebtn img {
+    width: 150px;
+    height: auto;
+  }
+
+  .images {
+    margin-top: 30px;
+    margin-bottom: 20px;
+  }
+
+  .images img {
+    width: 100%;
+    max-width: 350px;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-container {
+    padding: 4% 6%;
+    height: auto;
+  }
+
+  .about-text {
+    padding: 2% 0;
+  }
+
+  .bit {
+    font-size: 14px;
+    letter-spacing: 3px;
+    margin-bottom: 8px;
+  }
+
+  .aboutH1 {
+    font-size: 28px;
+    line-height: 34px;
+    letter-spacing: 2px;
+    margin-bottom: 15px;
+  }
+
+  .aboutText {
+    font-size: 14px;
+    line-height: 1.6;
+    padding-top: 5%;
+  }
+
+  .explorebtn {
+    padding-top: 4%;
+  }
+
+  .explorebtn img {
+    width: 120px;
+  }
+
+  .images img {
+    width: 100%;
+    max-width: 280px;
+  }
+}
+
+@media (max-width: 360px) {
+  .about-container {
+    padding: 5%;
+  }
+
+  .aboutH1 {
+    font-size: 24px;
+    line-height: 30px;
+    letter-spacing: 1px;
+  }
+
+  .aboutText {
+    font-size: 13px;
+    line-height: 1.7;
+  }
+
+  .explorebtn img {
+    width: 100px;
+  }
+
+  .images img {
+    max-width: 250px;
+  }
+}

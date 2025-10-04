@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import styles from "./Navbar.module.css";
 import { useScroll } from "./ScrollContext";
@@ -22,11 +22,19 @@ interface NavbarProps {
 const Navbar = ({ user }: NavbarProps) => {
   const { scrolled } = useScroll();
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
   const router = useRouter();
   const pathname = usePathname();
 
+  // Ensure component is mounted on client before showing interactive elements
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const handleLoginClick = () => {
     setIsLoginModalOpen(true);
+    closeMobileMenu();
   };
 
   const handleCloseModal = () => {
@@ -39,10 +47,12 @@ const Navbar = ({ user }: NavbarProps) => {
     } else {
       router.push("/dashboard");
     }
+    closeMobileMenu();
   };
 
   const handleLogoutClick = () => {
     logout();
+    closeMobileMenu();
   };
 
   const handleNavClick = (sectionId: string) => {
@@ -52,7 +62,34 @@ const Navbar = ({ user }: NavbarProps) => {
     }
 
     scrollToSection(sectionId);
+    // Close mobile menu after navigation
+    setIsMobileMenuOpen(false);
   };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
+  };
+
+  // Close mobile menu on screen resize
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth > 768) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  // Close mobile menu when pathname changes
+  useEffect(() => {
+    setIsMobileMenuOpen(false);
+  }, [pathname]);
 
   return (
     <>
@@ -66,7 +103,46 @@ const Navbar = ({ user }: NavbarProps) => {
             priority
           />
         </div>
-        <ul className={styles.links}>
+
+        {/* Burger Menu Button - only render after mounting */}
+        <div suppressHydrationWarning>
+          {mounted && (
+            <button
+              className={styles.burgerMenu}
+              onClick={toggleMobileMenu}
+              aria-label="Toggle menu"
+            >
+              <span
+                className={`${styles.burgerLine} ${
+                  isMobileMenuOpen ? styles.line1Open : ""
+                }`}
+              ></span>
+              <span
+                className={`${styles.burgerLine} ${
+                  isMobileMenuOpen ? styles.line2Open : ""
+                }`}
+              ></span>
+              <span
+                className={`${styles.burgerLine} ${
+                  isMobileMenuOpen ? styles.line3Open : ""
+                }`}
+              ></span>
+            </button>
+          )}
+        </div>
+
+        {/* Mobile Menu Overlay - only render after mounting */}
+        {mounted && isMobileMenuOpen && (
+          <div className={styles.mobileOverlay} onClick={closeMobileMenu}></div>
+        )}
+
+        {/* Navigation Links */}
+        <ul
+          className={`${styles.links} ${
+            mounted && isMobileMenuOpen ? styles.mobileMenuOpen : ""
+          }`}
+          suppressHydrationWarning
+        >
           <li>
             <button
               onClick={() => handleNavClick("home")}

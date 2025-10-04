@@ -4,7 +4,7 @@
   align-items: center;
   width: 100%;
   justify-content: space-between;
-  padding: 0 0.5%;
+  padding: 0 2%;
   height: 70px;
   background: rgba(0, 0, 0, 0.9);
   backdrop-filter: blur(8px);
@@ -136,18 +136,81 @@
   box-shadow: 0 2px 8px rgba(252, 170, 0, 0.3);
 }
 
+/* Burger Menu Styles */
+.burgerMenu {
+  display: none;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 28px;
+  height: 24px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  z-index: 1003;
+  padding: 2px;
+  transition: all 0.3s ease;
+}
+
+.burgerMenu:hover {
+  transform: scale(1.05);
+}
+
+.burgerMenu:focus {
+  outline: 2px solid #fccc06;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+.burgerLine {
+  width: 24px;
+  height: 3px;
+  background: #ffffff;
+  border-radius: 2px;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  transform-origin: center;
+}
+
+.line1Open {
+  transform: rotate(45deg) translate(5px, 5px);
+  background: #fccc06;
+}
+
+.line2Open {
+  opacity: 0;
+  transform: scale(0);
+}
+
+.line3Open {
+  transform: rotate(-45deg) translate(7px, -6px);
+  background: #fccc06;
+}
+
+.mobileOverlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 999;
+}
+
+.mobileMenuOpen {
+  transform: translateX(0) !important;
+}
+
 @media (max-width: 768px) {
   .navbar {
     padding: 0 1rem;
-    height: auto;
-    flex-direction: column;
-    padding-top: 0.75rem;
-    padding-bottom: 0.75rem;
-    min-height: 70px;
+    height: 70px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
   }
 
   .logo {
-    margin-bottom: 0.75rem;
+    margin-bottom: 0;
     margin-top: 0;
   }
 
@@ -155,47 +218,73 @@
     max-height: 55px;
   }
 
+  .burgerMenu {
+    display: flex;
+  }
+
+  .mobileOverlay {
+    display: block;
+  }
+
   .links {
-    margin-top: 0;
+    position: fixed;
+    top: 70px;
+    right: 0;
+    height: calc(100vh - 70px);
+    width: 280px;
+    background: rgba(0, 0, 0, 0.95);
+    backdrop-filter: blur(20px);
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
     flex-direction: column;
-    width: 100%;
-    gap: 0.75rem;
+    justify-content: flex-start;
     align-items: center;
+    gap: 1.5rem;
+    padding-top: 2rem;
+    transform: translateX(100%);
+    transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    z-index: 1000;
+    margin: 0;
+    list-style: none;
+    overflow-y: auto;
   }
 
   .links li {
-    width: auto;
+    width: 80%;
     text-align: center;
   }
 
   .links li a,
   .navButton {
-    font-size: 0.9rem;
-    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    padding: 0.75rem 1rem;
+    width: 100%;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .links li a:hover,
+  .navButton:hover {
+    background: rgba(252, 204, 6, 0.1);
+    color: #fccc06;
   }
 
   .loginBtn {
-    margin-top: 0.5rem;
-    width: auto;
-    min-width: 120px;
-    max-width: 200px;
-    height: 36px;
+    margin-top: 1rem;
+    width: 80%;
+    height: 45px;
+    border-radius: 8px;
   }
 
   .loginButton {
-    font-size: 0.9rem;
+    font-size: 1rem;
+    border-radius: 8px;
   }
 }
 
 @media (max-width: 480px) {
   .navbar {
-    padding: 0 0.75rem;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-  }
-
-  .logo {
-    margin-bottom: 0.5rem;
+    padding: 0 1rem;
   }
 
   .logo img {
@@ -203,21 +292,22 @@
   }
 
   .links {
-    gap: 0.5rem;
+    width: 280px;
+    padding-top: 1.5rem;
+    gap: 1.2rem;
   }
 
   .links li a,
   .navButton {
-    font-size: 0.85rem;
-    padding: 0.4rem 0.8rem;
+    font-size: 0.95rem;
+    padding: 0.7rem 1rem;
   }
 
   .loginBtn {
-    height: 34px;
-    min-width: 100px;
+    height: 42px;
   }
 
   .loginButton {
-    font-size: 0.85rem;
+    font-size: 0.95rem;
   }
 }
