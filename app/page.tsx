@@ -45,7 +45,7 @@ export default function Home() {
       const containerRect = simpleBarContent.getBoundingClientRect();
       const teamRect = teamSection.getBoundingClientRect();
       const offset =
-        teamRect.top - containerRect.top + simpleBarContent.scrollTop;
+        teamRect.top - containerRect.top + simpleBarContent.scrollTop + 20;
       simpleBarContent.scrollTo({
         top: offset,
         behavior: "smooth",

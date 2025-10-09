@@ -201,84 +201,120 @@
   margin: 0;
 }
 
-/* Responsive Design */
+/* Responsive Design - Vertical Timeline */
 @media screen and (max-width: 768px) {
+  .timeline {
+    white-space: normal;
+    overflow-x: visible;
+  }
+
+  .timelineList {
+    display: block;
+    width: 100%;
+    padding: 40px 0;
+    position: relative;
+    /* Resetting properties from desktop */
+    font-size: inherit;
+    justify-content: initial;
+    align-items: initial;
+  }
+
+  /* The vertical line */
+  .timelineList::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 20px; /* Position of the line */
+    width: 3px;
+    background: #fccc06;
+    box-shadow: 0 0 10px rgba(252, 204, 6, 0.4);
+  }
+
+  .timelineItem {
+    display: block;
+    position: relative;
+    width: 100%;
+    margin-bottom: 40px;
+    padding-left: 60px; /* Space for the line and dot */
+    /* Resetting properties from desktop */
+    height: auto;
+    background: none;
+    box-shadow: none;
+  }
+
+  .timelineItem:not(:first-child) {
+    margin-left: 0;
+  }
+
+  .timelineItem:last-child {
+    margin-bottom: 0;
+  }
+
+  /* The dot on the line */
+  .timelineItem::after {
+    content: "";
+    position: absolute;
+    left: 20px; /* Align with the line */
+    top: 5px; /* Adjust vertical alignment */
+    transform: translateX(-50%); /* Center the dot on the line */
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: #fccc06;
+    border: 2px solid #000;
+    box-shadow: 0 0 15px rgba(252, 204, 6, 0.6);
+    animation: pulse 2s infinite;
+  }
+
+  .timelineContent {
+    position: static; /* Crucial reset */
+    width: 100%;
+    /* Resetting properties from desktop */
+    transform: none !important;
+    top: auto !important;
+    left: auto !important;
+    padding: 15px;
+  }
+
+  /* Hide the desktop arrow */
+  .timelineContent::before {
+    display: none;
+  }
+
+  /* Ensure both odd and even items are reset */
+  .timelineItem:nth-child(odd) .timelineContent,
+  .timelineItem:nth-child(even) .timelineContent {
+    transform: none;
+    top: auto;
+  }
+
+  .timelineEnd {
+    display: none;
+  }
+}
+
+@media screen and (max-width: 480px) {
   .title {
     font-size: 2.5rem;
   }
 
   .subtitle {
     font-size: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  .container {
-    padding: 40px 15px 20px;
-  }
-}
-
-@media screen and (max-width: 599px) {
-  .timelineList,
-  .timelineItem {
-    width: auto;
-  }
-
-  .timelineList {
-    padding: 0;
-    transform: none !important;
   }
 
   .timelineItem {
-    display: block;
-    height: auto;
-    background: transparent;
-    margin-bottom: 30px;
+    padding-left: 50px;
   }
 
-  .timelineItem:first-child {
-    margin-top: 25px;
+  .timelineList::before {
+    left: 15px;
   }
 
-  .timelineItem:not(:first-child) {
-    margin-left: auto;
-  }
-
-  .timelineContent {
-    position: static;
-    width: 94%;
-    height: auto !important;
-    margin: 0 auto 25px;
-  }
-
-  .timelineItem:nth-child(odd) .timelineContent {
-    transform: none;
-  }
-
-  .timelineItem:nth-child(odd) .timelineContent::before,
-  .timelineItem:nth-child(even) .timelineContent::before {
-    left: 50%;
-    top: 100%;
-    transform: translateX(-50%);
-    border: none;
-    border-left: 2px solid #fccc06;
-    height: 25px;
-  }
-
-  .timelineEnd,
-  .timelineItem:nth-last-child(2) .timelineContent::before,
-  .timelineItem:not(:last-child)::after {
-    display: none;
-  }
-
-  .title {
-    font-size: 2rem;
-  }
-
-  .subtitle {
-    font-size: 0.9rem;
+  .timelineItem::after {
+    left: 15px;
   }
 }
-
 /* Modal Styles */
 .modalBackdrop {
   position: fixed;
