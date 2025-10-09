@@ -4,6 +4,7 @@ import "./globals.css";
 import NavbarWrapper from "@/components/ui/NavbarWrapper";
 import FooterWrapper from "@/components/ui/FooterWrapper";
 import { ScrollProvider } from "@/components/ui/ScrollContext";
+import ImagePreloader from "@/components/ui/ImagePreloader";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -31,6 +32,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <ImagePreloader />
         <ScrollProvider>
           <NavbarWrapper />
           {children}

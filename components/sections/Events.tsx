@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useCallback } from "react";
+import { animated } from "@react-spring/web";
 import styles from "./Events.module.css";
+import { useSlideUpAnimation, useFadeInAnimation } from "@/hooks/useScrollAnimation";
 
 interface Event {
   id: number;
@@ -19,6 +21,10 @@ interface Event {
 const Events: React.FC = () => {
   const [selectedEvent, setSelectedEvent] = useState<Event | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // Animation hooks
+  const { ref: headerRef, animation: headerAnimation } = useSlideUpAnimation({ threshold: 0.2 });
+  const { ref: timelineRef, animation: timelineAnimation } = useFadeInAnimation({ threshold: 0.1 });
 
   const events: Event[] = [
     {
@@ -103,14 +109,14 @@ const Events: React.FC = () => {
 
   return (
     <div id="events" className={styles.eventsSection}>
-      <div className={styles.container}>
+      <animated.div ref={headerRef} style={headerAnimation} className={styles.container}>
         <h2 className={styles.title}>Previous Events</h2>
         <p className={styles.subtitle}>
           Explore our journey through past workshops, bootcamps, and tech events
         </p>
-      </div>
+      </animated.div>
 
-      <section className={styles.timeline}>
+      <animated.section ref={timelineRef} style={timelineAnimation} className={styles.timeline}>
         <ol className={styles.timelineList}>
           {events.map((event, index) => (
             <li key={event.id} className={styles.timelineItem}>
@@ -134,7 +140,7 @@ const Events: React.FC = () => {
           ))}
           <li className={styles.timelineEnd} />
         </ol>
-      </section>
+      </animated.section>
 
       {/* Modal */}
       {isModalOpen && selectedEvent && (

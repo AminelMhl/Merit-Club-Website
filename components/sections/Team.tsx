@@ -1,8 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect, useState } from "react";
+import { animated } from "@react-spring/web";
 import styles from "./Team.module.css";
+import { useSlideUpAnimation } from "@/hooks/useScrollAnimation";
 
 const Team = () => {
+  const [imagesLoaded, setImagesLoaded] = useState(false);
+
+  // Animation hooks
+  const { ref: headerRef, animation: headerAnimation } = useSlideUpAnimation({
+    threshold: 0.2,
+  });
+  const { ref: gridRef, animation: gridAnimation } = useSlideUpAnimation({
+    threshold: 0.1,
+  });
+
   const teamMembers = useMemo(
     () => [
       {
@@ -65,31 +77,96 @@ const Team = () => {
     []
   );
 
+  // Preload all team member images
+  useEffect(() => {
+    const preloadImages = async () => {
+      const imagePromises = teamMembers.map((member) => {
+        return new Promise<void>((resolve, reject) => {
+          const img = new Image();
+          img.onload = () => resolve();
+          img.onerror = () => {
+            console.warn(`Failed to preload image: ${member.image}`);
+            resolve(); // Still resolve to not block other images
+          };
+          img.src = member.image;
+        });
+      });
+
+      try {
+        await Promise.all(imagePromises);
+        setImagesLoaded(true);
+      } catch (error) {
+        console.error("Error preloading images:", error);
+        setImagesLoaded(true); // Set to true anyway to prevent infinite loading
+      }
+    };
+
+    preloadImages();
+  }, [teamMembers]);
+
   return (
     <main id="team" className={styles.team}>
-      <div className={styles.teamHeader}>
+      <animated.div
+        ref={headerRef}
+        style={headerAnimation}
+        className={styles.teamHeader}
+      >
         <h1 className={styles.meet}>Meet Our Team</h1>
         <p className={styles.teamSubtitle}>
           The passionate individuals behind Merit Club TBS
         </p>
-      </div>
+      </animated.div>
 
-      <div className={styles.teamGrid}>
+      <animated.div
+        ref={gridRef}
+        style={gridAnimation}
+        className={styles.teamGrid}
+      >
         {teamMembers.map((member, index) => (
-          <div key={member.id} className={styles.teamCard}>
+          <div
+            key={member.id}
+            className={styles.teamCard}
+            style={{
+              animationDelay: `${index * 100}ms`,
+            }}
+          >
             <div className={styles.cardImage}>
-              <img
-                src={member.image}
-                alt={member.name}
-                onError={(e) => {
-                  console.error(`Failed to load image: ${member.image}`);
-                  e.currentTarget.style.backgroundColor = "#333";
-                  e.currentTarget.style.display = "flex";
-                  e.currentTarget.style.alignItems = "center";
-                  e.currentTarget.style.justifyContent = "center";
-                }}
-                onLoad={() => console.log(`Loaded image: ${member.image}`)}
-              />
+              {imagesLoaded ? (
+                <img
+                  src={member.image}
+                  alt={member.name}
+                  loading="eager"
+                  decoding="async"
+                  style={{
+                    opacity: 1,
+                    transition: "opacity 0.3s ease",
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "cover",
+                  }}
+                  onError={(e) => {
+                    console.error(`Failed to load image: ${member.image}`);
+                    e.currentTarget.style.backgroundColor = "#333";
+                    e.currentTarget.style.display = "flex";
+                    e.currentTarget.style.alignItems = "center";
+                    e.currentTarget.style.justifyContent = "center";
+                  }}
+                />
+              ) : (
+                <div
+                  className={styles.imagePlaceholder}
+                  style={{
+                    backgroundColor: "#333",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    height: "100%",
+                    color: "#fccc06",
+                  }}
+                >
+                  Loading...
+                </div>
+              )}
               <div className={styles.cardOverlay}>
                 <a
                   href={member.linkedin}
@@ -115,7 +192,7 @@ const Team = () => {
             </div>
           </div>
         ))}
-      </div>
+      </animated.div>
     </main>
   );
 };

@@ -57,7 +57,8 @@ const Navbar = ({ user }: NavbarProps) => {
 
   const handleNavClick = (sectionId: string) => {
     if (pathname !== "/") {
-      router.push(`/#${sectionId}`);
+      // Use replace instead of push to avoid redirect loops
+      router.replace(`/#${sectionId}`);
       return;
     }
 

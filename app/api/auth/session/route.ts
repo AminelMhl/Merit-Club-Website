@@ -10,7 +10,8 @@ export async function GET() {
     if (session.user) {
       return NextResponse.json({ user: session.user });
     } else {
-      return NextResponse.json({ user: null }, { status: 401 });
+      // Return 200 with null user instead of 401 to reduce console errors
+      return NextResponse.json({ user: null }, { status: 200 });
     }
   } catch (error) {
     console.error("Session check error:", error);

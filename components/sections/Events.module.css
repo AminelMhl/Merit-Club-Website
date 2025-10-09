@@ -5,6 +5,8 @@
   min-height: 100vh;
   background: #000000;
   position: relative;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .container {
@@ -205,13 +207,13 @@
 @media screen and (max-width: 768px) {
   .timeline {
     white-space: normal;
-    overflow-x: visible;
+    overflow-x: hidden;
   }
 
   .timelineList {
     display: block;
     width: 100%;
-    padding: 40px 0;
+    padding: 40px 20px;
     position: relative;
     /* Resetting properties from desktop */
     font-size: inherit;
@@ -237,6 +239,7 @@
     width: 100%;
     margin-bottom: 40px;
     padding-left: 60px; /* Space for the line and dot */
+    padding-right: 20px;
     /* Resetting properties from desktop */
     height: auto;
     background: none;
@@ -253,28 +256,18 @@
 
   /* The dot on the line */
   .timelineItem::after {
-    content: "";
-    position: absolute;
-    left: 20px; /* Align with the line */
-    top: 5px; /* Adjust vertical alignment */
-    transform: translateX(-50%); /* Center the dot on the line */
-    width: 14px;
-    height: 14px;
-    border-radius: 50%;
-    background: #fccc06;
-    border: 2px solid #000;
-    box-shadow: 0 0 15px rgba(252, 204, 6, 0.6);
-    animation: pulse 2s infinite;
+    content: none;
   }
 
   .timelineContent {
     position: static; /* Crucial reset */
-    width: 100%;
+    width: calc(100% - 24px);
     /* Resetting properties from desktop */
     transform: none !important;
     top: auto !important;
     left: auto !important;
     padding: 15px;
+    margin-right: 4px;
   }
 
   /* Hide the desktop arrow */
@@ -305,13 +298,10 @@
 
   .timelineItem {
     padding-left: 50px;
+    padding-right: 16px;
   }
 
   .timelineList::before {
-    left: 15px;
-  }
-
-  .timelineItem::after {
     left: 15px;
   }
 }

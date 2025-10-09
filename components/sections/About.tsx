@@ -1,19 +1,27 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
+import { animated } from "@react-spring/web";
 import styles from "./About.module.css";
 import Link from "next/link";
+import { useSlideInFromLeftAnimation, useSlideInFromRightAnimation, useStaggeredAnimation } from "@/hooks/useScrollAnimation";
 
 const About = ({ onTeamClick }: { onTeamClick: () => void }) => {
+  // Animation hooks
+  const { ref: imageRef, animation: imageAnimation } = useSlideInFromLeftAnimation({ threshold: 0.3 });
+  const { ref: textRef, animation: textAnimation } = useSlideInFromRightAnimation({ threshold: 0.3 });
+  const { ref: titleRef, animation: titleAnimation } = useStaggeredAnimation(200, { threshold: 0.3 });
+  const { ref: buttonRef, animation: buttonAnimation } = useStaggeredAnimation(600, { threshold: 0.3 });
+
   return (
     <div id="about">
       <div className={styles["about-container"]}>
-        <div className={styles.images}>
+        <animated.div ref={imageRef} style={imageAnimation} className={styles.images}>
           <img src="/aboutImages.png" alt="" width={500} />
-        </div>
-        <div className={styles["about-text"]}>
-          <p className={styles.bit}>A BIT</p>
-          <h1 className={styles.aboutH1}>ABOUT US:</h1>
-          <p className={styles.aboutText}>
+        </animated.div>
+        <animated.div ref={textRef} style={textAnimation} className={styles["about-text"]}>
+          <animated.p ref={titleRef} style={titleAnimation} className={styles.bit}>A BIT</animated.p>
+          <animated.h1 style={titleAnimation} className={styles.aboutH1}>ABOUT US:</animated.h1>
+          <animated.p style={textAnimation} className={styles.aboutText}>
             MERIT TBS is a vibrant club at Tunis Business School that brings
             together students who are passionate about IT and digital
             innovation. With the motto “Make Everything Related to IT,” the club
@@ -22,8 +30,8 @@ const About = ({ onTeamClick }: { onTeamClick: () => void }) => {
             tech trends in a practical, fun way. Led by President Achref Msekni
             and a dedicated team of VPs, MERIT TBS creates a friendly, dynamic
             space where everyone can grow and thrive in today’s digital age.
-          </p>
-          <div className={styles.explorebtn}>
+          </animated.p>
+          <animated.div ref={buttonRef} style={buttonAnimation} className={styles.explorebtn}>
             <button
               style={{
                 background: "none",
@@ -36,8 +44,8 @@ const About = ({ onTeamClick }: { onTeamClick: () => void }) => {
             >
               <img src="/expbtn.png" alt="#team" />
             </button>
-          </div>
-        </div>
+          </animated.div>
+        </animated.div>
       </div>
     </div>
   );

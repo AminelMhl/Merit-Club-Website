@@ -1,8 +1,15 @@
 "use client";
 import React, { useState } from "react";
+import { animated } from "@react-spring/web";
 import styles from "./Contact.module.css";
+import { useSlideUpAnimation, useSlideInFromLeftAnimation, useSlideInFromRightAnimation } from "@/hooks/useScrollAnimation";
 
 const Contact = () => {
+  // Animation hooks
+  const { ref: headerRef, animation: headerAnimation } = useSlideUpAnimation({ threshold: 0.2 });
+  const { ref: infoRef, animation: infoAnimation } = useSlideInFromLeftAnimation({ threshold: 0.3 });
+  const { ref: formRef, animation: formAnimation } = useSlideInFromRightAnimation({ threshold: 0.3 });
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -56,15 +63,15 @@ const Contact = () => {
   return (
     <div id="contact" className={styles.contactSection}>
       <div className={styles.container}>
-        <div className={styles.header}>
+        <animated.div ref={headerRef} style={headerAnimation} className={styles.header}>
           <h2 className={styles.title}>Get In Touch</h2>
           <p className={styles.subtitle}>
             Have a question or want to collaborate? We'd love to hear from you.
           </p>
-        </div>
+        </animated.div>
 
         <div className={styles.content}>
-          <div className={styles.contactInfo}>
+          <animated.div ref={infoRef} style={infoAnimation} className={styles.contactInfo}>
             <div className={styles.infoCard}>
               <div className={styles.infoIcon}>
                 <svg viewBox="0 0 24 24" fill="currentColor">
@@ -98,9 +105,10 @@ const Contact = () => {
               <h3>Email</h3>
               <p>geeks.merittbs@gmail.com</p>
             </div>
-          </div>
+          </animated.div>
 
-          <form className={styles.contactForm} onSubmit={handleSubmit}>
+          <animated.div ref={formRef} style={formAnimation} className={styles.contactForm}>
+            <form onSubmit={handleSubmit}>
             <div className={styles.formGroup}>
               <input
                 type="text"
@@ -169,7 +177,8 @@ const Contact = () => {
                 again.
               </div>
             )}
-          </form>
+            </form>
+          </animated.div>
         </div>
       </div>
     </div>

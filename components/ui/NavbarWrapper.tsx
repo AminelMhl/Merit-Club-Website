@@ -13,8 +13,16 @@ type User = {
 export default function NavbarWrapper() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
+  const [lastCheck, setLastCheck] = useState(0);
 
   const checkSession = async () => {
+    // Prevent excessive session checks (minimum 5 second interval)
+    const now = Date.now();
+    if (now - lastCheck < 5000) {
+      return;
+    }
+    setLastCheck(now);
+
     try {
       const response = await fetch("/api/auth/session", {
         method: "GET",
@@ -25,6 +33,7 @@ export default function NavbarWrapper() {
         const data = await response.json();
         setUser(data.user || null);
       } else {
+        console.error("Session check error:", response.status);
         setUser(null);
       }
     } catch (error) {

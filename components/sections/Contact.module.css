@@ -3,6 +3,8 @@
   padding: 40px 20px 20px;
   background: #000000;
   position: relative;
+  overflow-x: hidden;
+  width: 100%;
 }
 
 .contactSection::before {
