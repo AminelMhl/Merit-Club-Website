@@ -3,6 +3,8 @@
 import { useState, useEffect } from "react";
 import styles from "./Dashboard.module.css";
 import Navbar from "./Navbar";
+import SuccessNotification from "./SuccessNotification";
+import LoadingIndicator from "./LoadingIndicator";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 
@@ -36,6 +38,20 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+
+  // Loading states for operations
+  const [taskLoading, setTaskLoading] = useState(false);
+  const [notificationLoading, setNotificationLoading] = useState(false);
+  const [pointsLoading, setPointsLoading] = useState(false);
+  const [removeUserLoading, setRemoveUserLoading] = useState<number | null>(
+    null
+  );
+
+  // Notification state
+  const [showNotification, setShowNotification] = useState(false);
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [notificationDescription, setNotificationDescription] = useState("");
+
   const [showTaskModal, setShowTaskModal] = useState(false);
   const [showNotificationModal, setShowNotificationModal] = useState(false);
   const [showPointsModal, setShowPointsModal] = useState(false);
@@ -92,8 +108,16 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
     }
   };
 
+  // Helper function to show success notifications
+  const showSuccessNotification = (message: string, description: string) => {
+    setNotificationMessage(message);
+    setNotificationDescription(description);
+    setShowNotification(true);
+  };
+
   const handleAddTask = async (e: React.FormEvent) => {
     e.preventDefault();
+    setTaskLoading(true);
     try {
       const response = await fetch("/api/admin/tasks", {
         method: "POST",
@@ -102,27 +126,38 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
       });
 
       if (response.ok) {
-        setSuccess("Task added successfully!");
+        const selectedUser = users.find(
+          (u) => u.id.toString() === taskForm.userId
+        );
+        const userName = selectedUser ? selectedUser.name : "member";
+
+        showSuccessNotification(
+          "Task Added Successfully!",
+          `Task "${taskForm.title}" assigned to ${userName}`
+        );
+
         setTaskForm({ title: "", userId: "" });
         setShowTaskModal(false);
-        setTimeout(() => setSuccess(""), 3000);
       } else {
         const data = await response.json();
         setError(data.error || "Failed to add task");
       }
     } catch (err) {
       setError("Failed to add task");
+    } finally {
+      setTaskLoading(false);
     }
   };
 
   const handleSendNotification = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      if (notificationForm.userIds.length === 0) {
-        setError("Please select at least one member");
-        return;
-      }
+    if (notificationForm.userIds.length === 0) {
+      setError("Please select at least one member");
+      return;
+    }
 
+    setNotificationLoading(true);
+    try {
       const response = await fetch("/api/admin/notifications/bulk", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -134,9 +169,12 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
 
       if (response.ok) {
         const data = await response.json();
-        setSuccess(
-          `Notification sent to ${data.count} member(s) successfully!`
+
+        showSuccessNotification(
+          "Notification Sent Successfully!",
+          `Message delivered to ${data.count} member(s)`
         );
+
         setNotificationForm({
           message: "",
           userIds: [],
@@ -144,24 +182,26 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
           selectDepartment: false,
         });
         setShowNotificationModal(false);
-        setTimeout(() => setSuccess(""), 3000);
       } else {
         const data = await response.json();
         setError(data.error || "Failed to send notification");
       }
     } catch (err) {
       setError("Failed to send notification");
+    } finally {
+      setNotificationLoading(false);
     }
   };
 
   const handleAddPoints = async (e: React.FormEvent) => {
     e.preventDefault();
-    try {
-      if (pointsForm.userIds.length === 0) {
-        setError("Please select at least one member");
-        return;
-      }
+    if (pointsForm.userIds.length === 0) {
+      setError("Please select at least one member");
+      return;
+    }
 
+    setPointsLoading(true);
+    try {
       const pointsValue = parseInt(pointsForm.points);
       const finalPoints =
         pointsForm.action === "reduce" ? -pointsValue : pointsValue;
@@ -177,7 +217,16 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
 
       if (response.ok) {
         const data = await response.json();
-        setSuccess(data.message);
+        const action = pointsForm.action === "add" ? "Added" : "Reduced";
+        const pointsValue = Math.abs(parseInt(pointsForm.points));
+
+        showSuccessNotification(
+          `Points ${action} Successfully!`,
+          `${pointsValue} points ${
+            pointsForm.action === "add" ? "added to" : "reduced from"
+          } ${pointsForm.userIds.length} member(s)`
+        );
+
         setPointsForm({
           points: "",
           userIds: [],
@@ -187,34 +236,42 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
         });
         setShowPointsModal(false);
         fetchUsers();
-        setTimeout(() => setSuccess(""), 3000);
       } else {
         const data = await response.json();
         setError(data.error || "Failed to update points");
       }
     } catch (err) {
       setError("Failed to update points");
+    } finally {
+      setPointsLoading(false);
     }
   };
 
   const handleRemoveUser = async (userId: number) => {
     if (!confirm("Are you sure you want to remove this user?")) return;
 
+    setRemoveUserLoading(userId);
     try {
       const response = await fetch(`/api/admin/users/${userId}`, {
         method: "DELETE",
       });
 
       if (response.ok) {
+        const removedUser = users.find((u) => u.id === userId);
         setUsers(users.filter((u) => u.id !== userId));
-        setSuccess("User removed successfully!");
-        setTimeout(() => setSuccess(""), 3000);
+
+        showSuccessNotification(
+          "User Removed Successfully!",
+          `${removedUser?.name || "Member"} has been removed from the system`
+        );
       } else {
         const data = await response.json();
         setError(data.error || "Failed to remove user");
       }
     } catch (err) {
       setError("Failed to remove user");
+    } finally {
+      setRemoveUserLoading(null);
     }
   };
 
@@ -319,6 +376,15 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
         }
       `}</style>
       <Navbar user={user} />
+
+      {/* Success Notification */}
+      <SuccessNotification
+        message={notificationMessage}
+        description={notificationDescription}
+        isVisible={showNotification}
+        onClose={() => setShowNotification(false)}
+      />
+
       <SimpleBar
         className="custom-scrollbar"
         style={{
@@ -426,7 +492,10 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
               </h2>
 
               {loading ? (
-                <div className={styles.loading}>Loading users...</div>
+                <LoadingIndicator
+                  size="medium"
+                  message="Loading team members..."
+                />
               ) : users.length === 0 ? (
                 <p>No team members found.</p>
               ) : (
@@ -469,8 +538,16 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                           <button
                             className={styles.removeButton}
                             onClick={() => handleRemoveUser(user.id)}
+                            disabled={removeUserLoading === user.id}
                           >
-                            Remove
+                            {removeUserLoading === user.id ? (
+                              <LoadingIndicator
+                                size="small"
+                                message="Removing..."
+                              />
+                            ) : (
+                              "Remove"
+                            )}
                           </button>
                         </div>
                       </div>
@@ -527,8 +604,16 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                   ))}
                 </select>
               </div>
-              <button type="submit" className={styles.submitButton}>
-                Add Task
+              <button
+                type="submit"
+                className={styles.submitButton}
+                disabled={taskLoading}
+              >
+                {taskLoading ? (
+                  <LoadingIndicator size="small" message="Adding Task..." />
+                ) : (
+                  "Add Task"
+                )}
               </button>
             </form>
           </div>
@@ -619,8 +704,16 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                   Selected: {notificationForm.userIds.length} member(s)
                 </div>
               </div>
-              <button type="submit" className={styles.submitButton}>
-                Send Notification
+              <button
+                type="submit"
+                className={styles.submitButton}
+                disabled={notificationLoading}
+              >
+                {notificationLoading ? (
+                  <LoadingIndicator size="small" message="Sending..." />
+                ) : (
+                  "Send Notification"
+                )}
               </button>
             </form>
           </div>
@@ -746,8 +839,21 @@ export default function AdminDashboard({ user }: AdminDashboardProps) {
                   Selected: {pointsForm.userIds.length} member(s)
                 </div>
               </div>
-              <button type="submit" className={styles.submitButton}>
-                {pointsForm.action === "add" ? "Add" : "Reduce"} Points
+              <button
+                type="submit"
+                className={styles.submitButton}
+                disabled={pointsLoading}
+              >
+                {pointsLoading ? (
+                  <LoadingIndicator
+                    size="small"
+                    message={`${
+                      pointsForm.action === "add" ? "Adding" : "Reducing"
+                    } Points...`}
+                  />
+                ) : (
+                  `${pointsForm.action === "add" ? "Add" : "Reduce"} Points`
+                )}
               </button>
             </form>
           </div>

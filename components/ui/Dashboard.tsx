@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { logout } from "@/lib/clientAuth";
 import styles from "./Dashboard.module.css";
 import Navbar from "./Navbar";
+import LoadingIndicator from "./LoadingIndicator";
 
 type User = {
   id: number;
@@ -63,6 +64,15 @@ export default function Dashboard({ user }: { user: User }) {
   const [tasks, setTasks] = useState<Task[]>([]);
   const [currentPoints, setCurrentPoints] = useState(user.points || 0);
   const [loading, setLoading] = useState(true);
+  const [taskToggleLoading, setTaskToggleLoading] = useState<number | null>(
+    null
+  );
+  const [notificationReadLoading, setNotificationReadLoading] = useState<
+    number | null
+  >(null);
+  const [notificationDeleteLoading, setNotificationDeleteLoading] = useState<
+    number | null
+  >(null);
 
   // Fetch latest user data including points and tasks
   useEffect(() => {
@@ -117,6 +127,7 @@ export default function Dashboard({ user }: { user: User }) {
   const unreadCount = notifications.filter((n) => !n.read).length;
 
   const toggleTask = async (taskId: number) => {
+    setTaskToggleLoading(taskId);
     try {
       const currentTask = tasks.find((t) => t.id === taskId);
       if (!currentTask) return;
@@ -156,10 +167,13 @@ export default function Dashboard({ user }: { user: User }) {
           task.id === taskId ? { ...task, completed: !task.completed } : task
         )
       );
+    } finally {
+      setTaskToggleLoading(null);
     }
   };
 
   const markNotificationRead = async (notificationId: number) => {
+    setNotificationReadLoading(notificationId);
     try {
       // Optimistically update UI
       setNotifications((prev) =>
@@ -196,10 +210,13 @@ export default function Dashboard({ user }: { user: User }) {
           notif.id === notificationId ? { ...notif, read: false } : notif
         )
       );
+    } finally {
+      setNotificationReadLoading(null);
     }
   };
 
   const deleteNotification = async (notificationId: number) => {
+    setNotificationDeleteLoading(notificationId);
     try {
       // Optimistically remove from UI
       setNotifications((prev) =>
@@ -229,6 +246,8 @@ export default function Dashboard({ user }: { user: User }) {
         const notificationsData = await notificationsResponse.json();
         setNotifications(notificationsData.notifications || []);
       }
+    } finally {
+      setNotificationDeleteLoading(null);
     }
   };
 
@@ -349,12 +368,21 @@ export default function Dashboard({ user }: { user: User }) {
                           className={styles.notificationContent}
                           onClick={() => markNotificationRead(notif.id)}
                         >
-                          <p className={styles.notificationMessage}>
-                            {notif.message}
-                          </p>
-                          <span className={styles.notificationTime}>
-                            {formatNotificationTime(notif.createdAt)}
-                          </span>
+                          {notificationReadLoading === notif.id ? (
+                            <LoadingIndicator
+                              size="small"
+                              message="Marking as read..."
+                            />
+                          ) : (
+                            <>
+                              <p className={styles.notificationMessage}>
+                                {notif.message}
+                              </p>
+                              <span className={styles.notificationTime}>
+                                {formatNotificationTime(notif.createdAt)}
+                              </span>
+                            </>
+                          )}
                         </div>
                         <button
                           className={styles.deleteButton}
@@ -363,22 +391,27 @@ export default function Dashboard({ user }: { user: User }) {
                             deleteNotification(notif.id);
                           }}
                           title="Delete notification"
+                          disabled={notificationDeleteLoading === notif.id}
                         >
-                          <svg
-                            width="16"
-                            height="16"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            strokeWidth="2"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          >
-                            <polyline points="3,6 5,6 21,6"></polyline>
-                            <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
-                            <line x1="10" y1="11" x2="10" y2="17"></line>
-                            <line x1="14" y1="11" x2="14" y2="17"></line>
-                          </svg>
+                          {notificationDeleteLoading === notif.id ? (
+                            <LoadingIndicator size="small" />
+                          ) : (
+                            <svg
+                              width="16"
+                              height="16"
+                              viewBox="0 0 24 24"
+                              fill="none"
+                              stroke="currentColor"
+                              strokeWidth="2"
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                            >
+                              <polyline points="3,6 5,6 21,6"></polyline>
+                              <path d="m19,6v14a2,2 0 0,1 -2,2H7a2,2 0 0,1 -2,-2V6m3,0V4a2,2 0 0,1 2,-2h4a2,2 0 0,1 2,2v2"></path>
+                              <line x1="10" y1="11" x2="10" y2="17"></line>
+                              <line x1="14" y1="11" x2="14" y2="17"></line>
+                            </svg>
+                          )}
                         </button>
                       </div>
                     ))
@@ -498,7 +531,10 @@ export default function Dashboard({ user }: { user: User }) {
             <h2 className={styles.sectionTitle}>Your Tasks</h2>
             <div className={styles.tasksList}>
               {loading ? (
-                <h1 className={styles.noTasks}>Loading tasks...</h1>
+                <LoadingIndicator
+                  size="medium"
+                  message="Loading your tasks..."
+                />
               ) : tasks.length == 0 ? (
                 <h1 className={styles.noTasks}>
                   You have no tasks, for now...
@@ -513,12 +549,16 @@ export default function Dashboard({ user }: { user: User }) {
                   >
                     <div className={styles.taskHeader}>
                       <div className={styles.taskCheckbox}>
-                        <input
-                          type="checkbox"
-                          checked={task.completed}
-                          onChange={() => toggleTask(task.id)}
-                          className={styles.checkbox}
-                        />
+                        {taskToggleLoading === task.id ? (
+                          <LoadingIndicator size="small" />
+                        ) : (
+                          <input
+                            type="checkbox"
+                            checked={task.completed}
+                            onChange={() => toggleTask(task.id)}
+                            className={styles.checkbox}
+                          />
+                        )}
                       </div>
                       <div className={styles.taskInfo}>
                         <h4 className={styles.taskTitle}>{task.title}</h4>

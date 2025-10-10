@@ -1,0 +1,322 @@
+/* Loading Indicator Component - Merit Club TBS Theme */
+
+.loadingWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  padding: 40px 20px;
+  color: #ffffff;
+  font-family: "Poppins", sans-serif;
+}
+
+.typingIndicator {
+  width: 60px;
+  height: 30px;
+  position: relative;
+  z-index: 4;
+}
+
+.typingCircle {
+  width: 8px;
+  height: 8px;
+  position: absolute;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #fccc06, #ffdc4e);
+  left: 15%;
+  transform-origin: 50%;
+  animation: typingCircle 0.6s alternate infinite ease;
+  box-shadow: 0 0 10px rgba(252, 204, 6, 0.4);
+}
+
+@keyframes typingCircle {
+  0% {
+    top: 20px;
+    height: 5px;
+    border-radius: 50px 50px 25px 25px;
+    transform: scaleX(1.7);
+    background: linear-gradient(135deg, #fccc06, #ffdc4e);
+    box-shadow: 0 2px 8px rgba(252, 204, 6, 0.6);
+  }
+
+  40% {
+    height: 8px;
+    border-radius: 50%;
+    transform: scaleX(1);
+    background: linear-gradient(135deg, #fccc06, #ffdc4e);
+    box-shadow: 0 0 12px rgba(252, 204, 6, 0.5);
+  }
+
+  100% {
+    top: 0%;
+    background: linear-gradient(135deg, #ffdc4e, #fccc06);
+    box-shadow: 0 0 15px rgba(252, 204, 6, 0.7);
+  }
+}
+
+.typingCircle:nth-child(2) {
+  left: 45%;
+  animation-delay: 0.2s;
+}
+
+.typingCircle:nth-child(3) {
+  left: auto;
+  right: 15%;
+  animation-delay: 0.4s;
+}
+
+.typingShadow {
+  width: 5px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: rgba(252, 204, 6, 0.3);
+  position: absolute;
+  top: 30px;
+  transform-origin: 50%;
+  z-index: 3;
+  left: 15%;
+  filter: blur(1px);
+  animation: typingShadow 0.6s alternate infinite ease;
+}
+
+@keyframes typingShadow {
+  0% {
+    transform: scaleX(1.5);
+    background-color: rgba(252, 204, 6, 0.4);
+  }
+
+  40% {
+    transform: scaleX(1);
+    opacity: 0.7;
+    background-color: rgba(252, 204, 6, 0.3);
+  }
+
+  100% {
+    transform: scaleX(0.2);
+    opacity: 0.2;
+    background-color: rgba(252, 204, 6, 0.2);
+  }
+}
+
+.typingShadow:nth-child(4) {
+  left: 45%;
+  animation-delay: 0.2s;
+}
+
+.typingShadow:nth-child(5) {
+  left: auto;
+  right: 15%;
+  animation-delay: 0.4s;
+}
+
+.loadingMessage {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: center;
+  letter-spacing: 0.5px;
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+
+@keyframes fadeInOut {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+
+/* Size Variants */
+.small .typingIndicator {
+  width: 45px;
+  height: 22px;
+}
+
+.small .typingCircle {
+  width: 6px;
+  height: 6px;
+}
+
+.small .typingShadow {
+  width: 4px;
+  height: 3px;
+  top: 22px;
+}
+
+.small .loadingMessage {
+  font-size: 0.875rem;
+}
+
+.small {
+  padding: 20px 15px;
+  gap: 12px;
+}
+
+.large .typingIndicator {
+  width: 80px;
+  height: 40px;
+}
+
+.large .typingCircle {
+  width: 12px;
+  height: 12px;
+}
+
+.large .typingShadow {
+  width: 8px;
+  height: 6px;
+  top: 40px;
+}
+
+.large .loadingMessage {
+  font-size: 1.2rem;
+}
+
+.large {
+  padding: 60px 30px;
+  gap: 24px;
+}
+
+/* Overlay Loading (for full-screen loading) */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(5px);
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay .loadingWrapper {
+  background: linear-gradient(
+    135deg,
+    rgba(15, 15, 15, 0.95) 0%,
+    rgba(25, 25, 25, 0.95) 100%
+  );
+  border: 1px solid rgba(252, 204, 6, 0.3);
+  border-radius: 20px;
+  padding: 40px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+}
+
+/* Inline Loading (for components) */
+.inline {
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  margin: 20px 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .loadingWrapper {
+    padding: 30px 15px;
+    gap: 12px;
+  }
+
+  .loadingMessage {
+    font-size: 0.9rem;
+  }
+
+  .small {
+    padding: 15px 10px;
+    gap: 8px;
+  }
+
+  .large {
+    padding: 40px 20px;
+    gap: 16px;
+  }
+
+  .large .loadingMessage {
+    font-size: 1.1rem;
+  }
+
+  .overlay .loadingWrapper {
+    padding: 30px 20px;
+    margin: 20px;
+    border-radius: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .loadingWrapper {
+    padding: 20px 10px;
+    gap: 10px;
+  }
+
+  .loadingMessage {
+    font-size: 0.85rem;
+  }
+
+  .typingIndicator {
+    width: 50px;
+    height: 25px;
+  }
+
+  .typingCircle {
+    width: 7px;
+    height: 7px;
+  }
+
+  .typingShadow {
+    width: 4px;
+    height: 3px;
+    top: 25px;
+  }
+
+  .overlay .loadingWrapper {
+    padding: 25px 15px;
+    margin: 15px;
+    border-radius: 12px;
+  }
+}
+
+/* Accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .typingCircle,
+  .typingShadow,
+  .loadingMessage {
+    animation: none;
+  }
+
+  .typingCircle {
+    background: #fccc06;
+    box-shadow: 0 0 5px rgba(252, 204, 6, 0.3);
+  }
+
+  .loadingMessage {
+    opacity: 0.8;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .typingCircle {
+    background: #fccc06;
+    box-shadow: none;
+  }
+
+  .typingShadow {
+    background-color: rgba(252, 204, 6, 0.5);
+  }
+
+  .loadingMessage {
+    color: #ffffff;
+  }
+
+  .inline {
+    border-color: #fccc06;
+  }
+}
